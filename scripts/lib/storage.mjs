@@ -53,6 +53,7 @@ function createPostgresStore(sql){
     async resetLoginFailure(login){await exec('UPDATE users SET failed_attempts=0,locked_until=0 WHERE login=$1',[login])},
     async createSession(token,login,expiresAt){await exec('INSERT INTO sessions(token,login,expires_at) VALUES($1,$2,$3) ON CONFLICT(token) DO UPDATE SET login=EXCLUDED.login,expires_at=EXCLUDED.expires_at',[token,login,expiresAt])},
     async deleteSession(token){await exec('DELETE FROM sessions WHERE token=$1',[token])},
+    async deleteSessionsForUser(login,exceptToken=''){if(exceptToken)await exec('DELETE FROM sessions WHERE login=$1 AND token<>$2',[login,exceptToken]);else await exec('DELETE FROM sessions WHERE login=$1',[login])},
     async getSessionUser(token,now){return one('SELECT s.login,u.role,u.name,u.agency,u.scope_mode FROM sessions s JOIN users u ON u.login=s.login WHERE s.token=$1 AND s.expires_at>$2',[token,now])},
     async readState({forUpdate=false}={}){const r=await one(`SELECT state_json,version,updated_at,updated_by FROM institution_state WHERE id=1${forUpdate?' FOR UPDATE':''}`);return r?{state:jsonValue(r.state_json),version:Number(r.version||0),updatedAt:r.updated_at,updatedBy:r.updated_by}:{state:{members:[],applications:[]},version:0}},
     async saveState(state,version,updatedBy){await exec(`INSERT INTO institution_state(id,state_json,version,updated_at,updated_by) VALUES(1,$1::jsonb,$2,$3,$4)
@@ -89,6 +90,7 @@ function createMemoryStore(){
     async updateLoginFailure(login,failedAttempts,lockedUntil){const u=users.get(login);if(u){u.failed_attempts=failedAttempts;u.locked_until=lockedUntil}},
     async resetLoginFailure(login){const u=users.get(login);if(u){u.failed_attempts=0;u.locked_until=0}},
     async createSession(token,login,expiresAt){sessions.set(token,{login,expiresAt})},async deleteSession(token){sessions.delete(token)},
+    async deleteSessionsForUser(login,exceptToken=''){for(const [token,s] of sessions)if(s.login===login&&token!==exceptToken)sessions.delete(token)},
     async getSessionUser(token,now){const s=sessions.get(token);if(!s||s.expiresAt<=now)return null;const u=users.get(s.login);return u?{login:u.login,role:u.role,name:u.name,agency:u.agency,scope_mode:u.scope_mode}:null},
     async readState(){return structuredClone(central)},async saveState(state,version,updatedBy){central={state:structuredClone(state),version,updatedAt:nowIso(),updatedBy}},
     async upsertNode(nodeId,login,institutionId,structureId){nodes.set(nodeId,{node_id:nodeId,login,institution_id:institutionId,structure_id:structureId,last_seen_at:nowIso(),status:'ACTIF'})},

@@ -91,6 +91,19 @@ const server=http.createServer(async(req,res)=>{try{
     return json(res,200,{user:enrichUser({login:u.login,role:u.role,name:u.name,agency:u.agency,scopeMode:u.scope_mode})},`credipass_session=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`);
   }
   if(path==='/api/auth/me'){const u=await requireAuth(req,res);if(!u)return;return json(res,200,{user:u})}
+  if(path==='/api/auth/change-password'&&req.method==='POST'){
+    const u=await requireAuth(req,res);if(!u)return;
+    const b=await body(req),currentPassword=String(b.currentPassword||''),newPassword=String(b.newPassword||'');
+    if(newPassword.length<8)return json(res,400,{error:'Le nouveau mot de passe doit contenir au moins 8 caractères.'});
+    if(currentPassword===newPassword)return json(res,400,{error:'Le nouveau mot de passe doit être différent de l’ancien.'});
+    const creds=await db.getUserCredentials(u.login);if(!creds)return json(res,404,{error:'Compte utilisateur introuvable.'});
+    const got=Buffer.from(hashPassword(currentPassword,creds.salt),'hex'),exp=Buffer.from(creds.password_hash,'hex');
+    if(got.length!==exp.length||!timingSafeEqual(got,exp))return json(res,401,{error:'Mot de passe actuel incorrect.'});
+    const salt=randomBytes(16).toString('hex'),passwordHash=hashPassword(newPassword,salt);
+    await db.setUserCredentials(u.login,passwordHash,salt);
+    const token=cookies(req).credipass_session||'';if(db.deleteSessionsForUser)await db.deleteSessionsForUser(u.login,token);
+    return json(res,200,{ok:true,user:u});
+  }
   if(path==='/api/auth/logout'&&req.method==='POST'){const t=cookies(req).credipass_session;if(t)await db.deleteSession(t);return json(res,200,{ok:true},'credipass_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')}
   if(path==='/api/sync'&&req.method==='POST'){
     const u=await requireAuth(req,res);if(!u)return;

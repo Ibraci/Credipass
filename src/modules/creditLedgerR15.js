@@ -3,7 +3,6 @@ import * as R14 from './creditLedgerR14.js';
 import {readState,writeState} from './dataRepository.js';
 import {ensureR187,recordBic,bicFor,disputeData,resolveDispute,auditFor,registerImport,passportSummary} from './dataGovernanceR187.js';
 import {ensureSfdFieldConfig,fieldSummary} from './sfdFieldR193.js';
-import {sfdScore} from './sfdScoreInput.js';
 export * from './creditLedgerR14.js';
 const iso=()=>new Date().toISOString(), num=v=>Number(v)||0, next=(p,a)=>`${p}-${String(a.length+1).padStart(4,'0')}`;
 export const PRODUCT_DEFINITIONS={
@@ -96,11 +95,6 @@ export function setInstitutionalRisk(x,id,dimension,rating,evidence,actor){if(!R
 export function salaryCapacity(x,id){const f=productForm(x,id).data,monthly=num(f.monthlyRepayment),quota=num(f.assignableQuota);return {netSalary:num(f.netSalary),assignableQuota:quota,monthlyRepayment:monthly,compliant:quota>monthly,margin:quota-monthly}}
 export function workflowState(x,id){const a=x.applications.find(v=>v.id===id),def=productDefinition(a?.product),actions=x.workflowActions.filter(v=>v.applicationId===id);return {steps:def.workflow,actions,next:def.workflow.find(step=>!actions.some(v=>v.step===step&&v.status==='VALIDÉ'))||'TERMINÉ'}}
 export function recordWorkflowAction(x,id,step,status,note,actor){const def=productDefinition(x.applications.find(v=>v.id===id)?.product);if(!def.workflow.includes(step))throw Error('Étape non prévue pour ce produit');const v={id:next('WF',x.workflowActions),applicationId:id,step,status,note:note||'',actor,at:iso()};x.workflowActions.push(v);audit(x,'WORKFLOW_VALIDATION',actor,{applicationId:id,step,status});return v}
-export function dossier(x,id){const d=R14.dossier(x,id),a=d.application,sc=sfdScore(x,id);return {...d,incluscore:sc?.score||0,incluscoreDetail:sc,productDefinition:productDefinition(a.product),productForm:productForm(x,id),businessAnalysis:x.businessAnalyses.find(v=>v.applicationId===id)||null,personalBudget:x.personalBudgets.find(v=>v.applicationId===id)||null,personalBalance:x.personalBalanceSheets.find(v=>v.applicationId===id)||null,policy:policySummary(x,id),institutionalRisk:x.institutionalRisk.filter(v=>v.applicationId===id),workflow:workflowState(x,id),sfdField:fieldSummary(x,id)}}
+export function dossier(x,id){const d=R14.dossier(x,id),a=d.application;return {...d,productDefinition:productDefinition(a.product),productForm:productForm(x,id),businessAnalysis:x.businessAnalyses.find(v=>v.applicationId===id)||null,personalBudget:x.personalBudgets.find(v=>v.applicationId===id)||null,personalBalance:x.personalBalanceSheets.find(v=>v.applicationId===id)||null,policy:policySummary(x,id),institutionalRisk:x.institutionalRisk.filter(v=>v.applicationId===id),workflow:workflowState(x,id),sfdField:fieldSummary(x,id)}}
 
 export {recordBic,bicFor,disputeData,resolveDispute,auditFor,registerImport,passportSummary};
-
-// Score SFD (critères des documents terrain) : remplace le calcul R14 pour l'application.
-export function incluscore(x,id){return sfdScore(x,id)}
-// La décision fige le score, sa version et ses normes au moment où le comité statue.
-export function recordDecision(x,d,actor){const sc=sfdScore(x,d.applicationId),v=R14.recordDecision(x,d,actor);if(sc)v.scoreSnapshot={score:sc.score,band:sc.band,coverage:sc.coverage,dataConfidence:sc.dataConfidence,axes:sc.axes,outOfNorm:sc.outOfNorm,policyVersion:sc.policyVersion,engineVersion:sc.engineVersion,at:v.at};return v}
