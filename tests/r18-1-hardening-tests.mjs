@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as L from '../src/modules/creditLedgerR15.js';
+import {can,normalizeScope,visibleApplications,visibleMembers,canAccessApplication,DEMO_USERS} from '../src/modules/accessControlR18.js';
+const db=normalizeScope(L.seed());
+const byLogin=x=>DEMO_USERS.find(u=>u.login===x); const agent=byLogin('agent.credit'),audit=byLogin('auditeur'),admin=byLogin('admin.systeme'),cash=byLogin('caisse'),follow=byLogin('suivi.credit');
+assert.ok(DEMO_USERS.length>=10);
+assert.ok(can(agent,'APPLICATION_CREATE')); assert.equal(can(agent,'DISBURSE'),false); assert.equal(can(agent,'PAYMENT_RECORD'),false); assert.equal(can(agent,'CLOSE_CREDIT'),false);
+assert.equal(can(audit,'APPLICATION_EDIT'),false); assert.equal(can(audit,'PAYMENT_RECORD'),false);
+assert.equal(can(admin,'CREDIT_APPROVE'),false); assert.equal(can(admin,'DISBURSE'),false);
+assert.ok(can(cash,'DISBURSE')); assert.ok(can(cash,'PAYMENT_RECORD')); assert.equal(can(cash,'CREDIT_APPROVE'),false);
+assert.ok(can(follow,'FOLLOWUP_EDIT')); assert.ok(can(follow,'CLOSE_CREDIT')); assert.equal(can(follow,'CREDIT_APPROVE'),false);
+assert.ok(visibleMembers(agent,db).length>0); assert.ok(visibleApplications(agent,db).length>0);
+const foreign={...db.applications[0],agency:'Autre agence',ownerLogin:'autre.agent'}; assert.equal(canAccessApplication(agent,foreign),false); assert.equal(canAccessApplication(audit,foreign),true);
+const app=fs.readFileSync(new URL('../src/az-app.js',import.meta.url),'utf8');
+for(const p of ["gate('GUARANTEE_EDIT')","gate('DISBURSE')","gate('PAYMENT_RECORD')","gate('RESTRUCTURE_PROPOSE')","gate('SCHEDULE_GENERATE')","gate('FOLLOWUP_EDIT')","gate('CLOSE_CREDIT')","canAccessApplication(currentUser,appScope)"])assert.ok(app.includes(p),p);
+const sw=fs.readFileSync(new URL('../sw.js',import.meta.url),'utf8'); assert.ok(/credipass-r(?:18|19)-/.test(sw)); // cache versionné R18.x assert.ok(sw.includes('accessControlR18.js')); assert.ok(sw.includes('offlineFieldR18.js'));
+console.log('R18.1 HARDENING: PASS — RBAC actions, périmètre, cache offline');

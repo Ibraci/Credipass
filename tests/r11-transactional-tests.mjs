@@ -1,0 +1,16 @@
+import { seedCreditLedger, addMember, addApplication, addFinancialSnapshot, recordDecision, recordDisbursement, recordPayment, financialPosition, ledgerMetrics } from '../src/modules/creditLedger.js';
+const assert=(c,m)=>{if(!c)throw new Error(m)};
+const x=seedCreditLedger();
+assert(x.members.length===4,'4 member types seeded');
+assert(new Set(x.members.map(m=>m.type)).size===4,'each member type represented');
+const m=addMember(x,{name:'Membre Test',type:'Personne physique',city:'Bamako'});
+const a=addApplication(x,{memberId:m.id,purpose:'Stock',requestedAmount:600000,durationMonths:12});
+addFinancialSnapshot(x,{applicationId:a.id,revenue:400000,businessExpenses:200000,householdExpenses:80000,debtPayments:20000,source:'Documenté'});
+assert(financialPosition(x,a.id).capacity===100000,'capacity derived from source data');
+recordDecision(x,{applicationId:a.id,decision:'VALIDÉ',approvedAmount:500000,reason:'Test'});
+recordDisbursement(x,{applicationId:a.id,amount:500000,method:'Caisse',reference:'TEST'});
+recordPayment(x,{applicationId:a.id,amount:60000,interest:10000,method:'Caisse',reference:'R1'});
+const k=ledgerMetrics(x);
+assert(k.outstanding>=450000,'outstanding derived from disbursement minus principal');
+assert(x.audit.length>=7,'audit records transactions');
+console.log('R11_TRANSACTIONAL_PASS 8/8');

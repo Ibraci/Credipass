@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const root=process.cwd();
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const exists=p=>fs.existsSync(path.join(root,p));
+const checks=[];
+function check(name, ok){ if(!ok) throw new Error(`FAIL ${name}`); checks.push(name); console.log(`PASS ${name}`); }
+const pkg=JSON.parse(read('package.json'));
+check('release package identity',pkg.name==='credipass' && Number(pkg.version.split('.')[0])>=5);
+check('synthetic fixtures isolated',exists('src/fixtures/README.md') && exists('src/fixtures/sample-aissata.js') && !exists('src/data/demo-aissata.js'));
+check('scenario engine normalized',exists('src/engines/scenarioEngine.js') && !exists('src/engines/demoScenarioEngine.js'));
+check('institutional readiness normalized',exists('src/engines/institutionalReadinessEngine.js') && exists('src/config/readinessPolicies.js'));
+const app=read('src/app.js');
+check('no legacy storage demo keys',!app.includes('credipass.demo.v4.0') && !app.includes('credipass.institutional-pilot.v4.0'));
+check('no visible engine version in scenario proof',!app.includes("<strong>v${j.engineVersion}</strong>"));
+check('no legacy fake portfolio constants',!app.includes('Math.round(totalGranted*0.72)') && !app.includes('Math.round(totalGranted*0.08)'));
+const fixtures=fs.readdirSync(path.join(root,'src/fixtures')).filter(x=>x.endsWith('.js')).map(x=>read('src/fixtures/'+x)).join('\n');
+check('fixtures explicitly synthetic',!fixtures.includes('SFD Démo') && !fixtures.includes('CREDIPASS-DEMO-CATALOG') && !fixtures.includes('Hackathon demo and institutional pilot sandbox'));
+check('professional guarantee chain',app.includes('Valeur expertisée') && app.includes('Valeur retenue') && app.includes('Couverture'));
+check('character trust present',app.includes('Caractère & confiance') || app.includes('Caractère et confiance'));
+check('human decision retained',app.includes('L’humain décide'));
+check('eight-lot audit retained',exists('docs/AUDIT_R4_FINAL_CLEAN.md'));
+console.log(`R5_RELEASE_CANDIDATE_PASS ${checks.length}/${checks.length}`);

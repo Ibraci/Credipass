@@ -1,0 +1,12 @@
+import { assessGuarantee, assessGuaranteePortfolio } from '../src/engines/guaranteeAssessmentEngine.js';
+import { DEFAULT_DELEGATION_MATRIX, authorityForAmount, validateDelegationMatrix } from '../src/config/creditGovernancePolicies.js';
+import fs from 'node:fs';
+const app=fs.readFileSync(new URL('../src/app.js',import.meta.url),'utf8');
+const g=assessGuarantee({type:'Équipement',owner:'Client',evidenceRef:'FAC-01',declaredValue:1000000,appraisedValue:800000,expert:'Expert 01',appraisalDate:'2026-09-21',haircutPercent:25},1000000);
+if(g.retainedValue!==600000||g.coveragePercent!==60||!g.verified) throw new Error('Guarantee assessment failed');
+const missing=assessGuarantee({declaredValue:1000000},1000000); if(missing.retainedValue!==null||missing.status!=='À expertiser') throw new Error('Missing appraisal must not be retained');
+const gp=assessGuaranteePortfolio([{appraisedValue:500000,haircutPercent:20,owner:'A',evidenceRef:'P',expert:'E',appraisalDate:'2026-09-21'}],1000000); if(gp.retainedTotal!==400000||gp.coveragePercent!==40) throw new Error('Guarantee portfolio failed');
+validateDelegationMatrix(DEFAULT_DELEGATION_MATRIX); if(authorityForAmount(25000000)?.authority!=='Direction générale') throw new Error('Delegation matrix failed');
+if(!app.includes('Garanties & cautions')||!app.includes('Matrice de délégation')) throw new Error('R3 UI hardening missing');
+if(app.includes("replaceAll('Démo','Exemple')")) throw new Error('Demo masking still present');
+console.log('R3_HARDENING_TESTS_PASS 7/7');

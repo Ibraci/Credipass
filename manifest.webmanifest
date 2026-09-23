@@ -1,0 +1,11 @@
+{
+  "name": "CREDIPASS by KABU PRO",
+  "short_name": "CREDIPASS",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f5",
+  "theme_color": "#0f5132",
+  "lang": "fr",
+  "description": "CREDIPASS by KABU PRO — confiance financière inclusive, scoring explicable, coffre numérique, consentement granulaire, matching de produits, CREDIPASS CONNECT et fonctionnement hors connexion.",
+  "icons": []
+}

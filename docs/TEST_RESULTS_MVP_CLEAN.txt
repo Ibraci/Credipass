@@ -1,0 +1,22 @@
+CREDIPASS MVP FINAL CLEAN
+=========================
+
+npm run test:all : PASS
+- 51/51 moteurs essentiels : PASS
+- RBAC / 10 rôles : PASS
+- 25 membres / 25 dossiers : PASS
+- Offline auth : PASS
+- Synchronisation centrale : PASS
+- OCR : PASS
+- Produits / politiques : PASS
+- R19 / R19.1 / R19.2 / R19.3 / R19.3.1 / R19.3.2 : PASS
+- 10 comptes de démonstration : PASS
+- MVP CLEAN : PASS
+
+Correctifs MVP CLEAN :
+- TDZ JavaScript `d` avant initialisation : corrigé
+- apiMe import : corrigé
+- bulle Copilot 💬 : gestionnaire direct + panneau + focus + Échap
+- cache PWA : service worker modifié pour réinstallation des actifs
+- libellés techniques du dossier : nettoyés
+- DOS-0005 : 4 pièces vérifiées, 1 visite, garantie, politique 3/3, étape Agent validée

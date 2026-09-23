@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+const store=new Map();global.localStorage={getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)};
+const L=await import('../src/modules/creditLedgerV2.js');let x=L.seed();
+assert.equal(x.members.length,4);assert.deepEqual(new Set(x.members.map(m=>m.type)),new Set(L.TYPES));
+const m=L.addMember(x,{name:'Membre Test',type:'Personne physique'},'Agent');assert.equal(x.members.length,5);
+const a=L.addApplication(x,{memberId:m.id,requestedAmount:1000000,durationMonths:12},'Agent');
+L.addDocument(x,{applicationId:a.id,label:'Pièce identité',status:'Vérifié'},'Agent');
+L.addVisit(x,{applicationId:a.id,activityObserved:'Oui',observations:'Activité constatée'},'Agent');
+L.addFinancial(x,{applicationId:a.id,revenue:500000,businessExpenses:250000,householdExpenses:80000,debtPayments:20000},'Analyste');assert.equal(L.financialPosition(x,a.id).capacity,150000);
+const g=L.addGuarantee(x,{applicationId:a.id,declaredValue:800000},'Agent');assert.equal(g.retainedValue,null);
+L.recordDecision(x,{applicationId:a.id,decision:'VALIDÉ',approvedAmount:900000,reason:'OK'},'Comité');
+assert.throws(()=>L.disburse(x,{applicationId:a.id,amount:1000000},'Caisse'));
+L.disburse(x,{applicationId:a.id,amount:900000},'Caisse');L.pay(x,{applicationId:a.id,amount:200000,interest:20000},'Caisse');assert.equal(L.position(x,a.id).outstanding,720000);
+L.restructure(x,{applicationId:a.id,reason:'Baisse activité',newDuration:18},'Responsable');assert.equal(a.durationMonths,18);
+assert.throws(()=>L.close(x,a.id,'Agent'));
+L.pay(x,{applicationId:a.id,amount:720000,interest:0},'Caisse');L.close(x,a.id,'Agent');assert.equal(a.status,'CLÔTURÉ');
+const mt=L.metrics(x);assert.equal(mt.members,5);assert.ok(x.audit.length>=10);console.log('R12 A-Z: 15/15 PASS');

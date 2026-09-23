@@ -1,0 +1,42 @@
+
+> credipass@19.3.2 test:all
+> npm run test:active --silent && npm run test:r16 --silent && npm run test:r18.2 --silent && npm run test:r18.3 --silent && npm run test:accounts --silent
+
+PASS 51/51 — moteurs et scénarios essentiels
+R18 SCORING & ACCESS: PASS — 10 rôles/comptes, 25 membres, 25 dossiers
+R18.1 HARDENING: PASS — RBAC actions, périmètre, cache offline
+R17 DATA LAYER: PASS — 25 membres, 25 dossiers, 21 cas pratiques
+R15 INSTITUTIONAL CREDIT PROCESS: PASS
+BOOT_GATE_PASS modules=92 imports/exports=coherents
+PASS dashboard clients KPI
+PASS client/dossier separation
+PASS six analysis steps
+PASS evidence semantics
+PASS template integration
+PASS human decision
+PASS responsive evidence
+PASS desktop stepper no ellipsis
+PASS admin hash not plaintext
+CLOSURE_UI_TESTS_PASS 9/9
+PASS loan-math — 3 méthodes + ratios
+R18.4 OFFLINE AUTH: PASS — secret PBKDF2 requis, mauvais mot de passe rejeté
+R18.4 CENTRAL SYNC: PASS — état partagé versionné Gérant → Agent → Analyste/Responsable, injection membre Agent rejetée
+R18.4 CERTIFICATION CONTRACT: PASS
+R18.3 OCR ENGINE SMOKE: PASS — Tesseract + fra/eng + pdftoppm disponibles
+R18.4 OCR API: PASS — texte reconnu, confiance Tesseract réelle 91%
+R18.5 ROLE CONSOLIDATION: PASS — 10 rôles, 10 comptes, séparation des pouvoirs
+R18.6 PRODUCTS & POLICIES: PASS — 10 produits actifs, politiques versionnées et snapshots immuables
+R18.6 APPLICATION INTEGRATION: PASS — validation + snapshot sur dossier réel
+R18.7 DATA/PASSEPORT/AUDIT: PASS — 25 membres, 25 dossiers, 21 cas pratiques
+R19 GOLD CERTIFICATION: PASS — 10 rôles, 25 membres, 25 dossiers, 9 produits actifs
+R19.1 DECENTRALIZED + ASSISTANT: PASS
+R19.2 DECENTRALIZED SYNC HARDENING: PASS — multi-agence, node health, métadonnées territoriales et conflit versionné
+R19.3 SFD FIELD + AI COPILOT: PASS — 25 dossiers explicables, règles salarié/PME configurables et UI copilote flottante
+R19.3 AI PROVIDER: PASS — fournisseur IA serveur testé, secret hors navigateur, garde périmètre active
+R19.3 CERTIFICATION: PASS — offline logiciel, métier, deux nœuds, collision versionnée et non-écrasement
+R19.3.1 BLOCKER HARDENING: PASS — mutations versionnées, données SFD complètes, no-op/replay protégés, conflit humain, LAN et config descendante
+R19.3.2 POSTGRESQL CENTRAL: PASS — IndexedDB terminaux, PostgreSQL central obligatoire, aucun fallback SQLite de production
+R16 LEGACY COMPAT: PASS — invariants UX français conservés dans la release courante
+R18.2 LEGACY COMPAT: PASS — périmètres, passeport et cache restent cohérents
+R18.3 LEGACY COMPAT: PASS — auth, offline, backend central, OCR et invariants de production conservés
+DEMO ACCOUNTS: PASS — 10 comptes / 10 mots de passe mémorisables validés

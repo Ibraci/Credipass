@@ -1,0 +1,7 @@
+export const FINANCING_FILE_POLICIES = {
+  balanced:{ id:'balanced', version:'FF-POL-2026.08-B1', minimumValidatedCompleteness:80, minimumExtractionConfidence:65, maximumBlockingContradictions:0, requiredBase:['identityDocument','creditRequest','consentForm','activityEvidence','cashflowEvidence'], conditional:{ cooperative:['coopMembership'], agriculture:['seasonalPlan'] } },
+  prudent:{ id:'prudent', version:'FF-POL-2026.08-P1', minimumValidatedCompleteness:90, minimumExtractionConfidence:75, maximumBlockingContradictions:0, requiredBase:['identityDocument','creditRequest','consentForm','activityEvidence','cashflowEvidence','debtStatement'], conditional:{ cooperative:['coopMembership'], agriculture:['seasonalPlan'] } },
+  inclusivePilot:{ id:'inclusivePilot', version:'FF-POL-2026.08-I1', minimumValidatedCompleteness:70, minimumExtractionConfidence:55, maximumBlockingContradictions:0, requiredBase:['identityDocument','creditRequest','consentForm','activityEvidence'], conditional:{ cooperative:['coopMembership'], agriculture:['seasonalPlan'] } }
+};
+export function getFinancingFilePolicy(id='balanced'){ const p=FINANCING_FILE_POLICIES[id]; if(!p) throw new RangeError(`unknown financing file policy: ${id}`); return JSON.parse(JSON.stringify(p)); }
+export function validateFinancingFilePolicy(p){ return Boolean(p?.id&&p?.version&&Array.isArray(p.requiredBase)&&p.minimumValidatedCompleteness>=0&&p.minimumValidatedCompleteness<=100&&p.minimumExtractionConfidence>=0&&p.minimumExtractionConfidence<=100&&p.maximumBlockingContradictions===0); }

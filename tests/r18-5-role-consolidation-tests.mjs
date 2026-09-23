@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {ROLES,DEMO_USERS,can} from '../src/modules/accessControlR18.js';
+assert.equal(Object.keys(ROLES).length,10,'exactement 10 rôles de référence');
+assert.equal(DEMO_USERS.length,10,'exactement 10 comptes de démonstration');
+const logins=DEMO_USERS.map(u=>u.login);
+for(const x of ['gerant','agent.credit','analyste.credit','conformite','comite.credit','caisse','suivi.credit','direction','auditeur','admin.systeme'])assert.ok(logins.includes(x),x);
+assert.equal(logins.includes('responsable.credit'),false);assert.equal(logins.includes('admin'),false);
+const by=x=>DEMO_USERS.find(u=>u.login===x);
+assert.equal(can(by('agent.credit'),'MEMBER_CREATE'),false);assert.equal(can(by('gerant'),'MEMBER_CREATE'),true);
+assert.equal(can(by('analyste.credit'),'ANALYSIS_EDIT'),true);assert.equal(can(by('analyste.credit'),'SUPERVISOR_VALIDATE'),true);
+assert.equal(can(by('admin.systeme'),'PRODUCT_ADMIN'),true);assert.equal(can(by('admin.systeme'),'USER_ADMIN'),true);assert.equal(can(by('admin.systeme'),'CREDIT_APPROVE'),false);
+assert.equal(can(by('caisse'),'DISBURSE'),true);assert.equal(can(by('suivi.credit'),'CLOSE_CREDIT'),true);
+console.log('R18.5 ROLE CONSOLIDATION: PASS — 10 rôles, 10 comptes, séparation des pouvoirs');

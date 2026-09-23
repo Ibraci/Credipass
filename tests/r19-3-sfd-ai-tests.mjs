@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as L from '../src/modules/creditLedgerR15.js';
+import {ensureSfdFieldConfig,activeSfdFieldProfile,evaluateFieldPolicies,fieldDataGaps,fieldContradictions} from '../src/modules/sfdFieldR193.js';
+import {buildCopilotContext,answerCopilotOffline} from '../src/modules/credipassAICopilotR193.js';
+import {DEMO_USERS} from '../src/modules/accessControlR18.js';
+const db=ensureSfdFieldConfig(L.seed()),agent=DEMO_USERS.find(x=>x.login==='agent.credit');
+const sal=db.applications.find(a=>a.product==='Crédit salarié'),pme=db.applications.find(a=>a.product==='Crédit PME');
+assert.ok(sal&&pme);const profile=activeSfdFieldProfile(db);assert.equal(profile.salary.domiciledMaxMonths,36);assert.equal(profile.salary.nonDomiciledMaxMonths,12);assert.equal(profile.pme.minimumGuaranteeCoverageRatio,1);
+L.saveProductForm(db,sal.id,{employer:'Employeur test',hireDate:'2022-01-01',contractDurationMonths:60,netSalary:500000,assignableQuota:180000,monthlyRepayment:120000,dga:50000,salaryDomiciliationDate:'2025-01-01',loanPurposeCategory:'Scolarité'},'Test R19.3');
+let pol=evaluateFieldPolicies(db,sal.id);assert.equal(pol.checks.find(x=>x.code==='SAL_QUOTITE').status,'CONFORME');assert.equal(pol.checks.find(x=>x.code==='SAL_DUREE_DOMICILIATION').status,'CONFORME');
+L.saveProductForm(db,sal.id,{salaryDomiciliationDate:''},'Test R19.3');sal.durationMonths=24;pol=evaluateFieldPolicies(db,sal.id);assert.equal(pol.checks.find(x=>x.code==='SAL_DUREE_DOMICILIATION').status,'BLOQUANT');
+L.saveBusinessAnalysis(db,{applicationId:pme.id,sales:1200000,purchases:500000,operatingExpenses:200000,market:'Local',competitors:'3',customers:'Détaillants',pricesVolumes:'Documentés',history:'5 ans',productsServices:'Commerce',source:'Documenté'},'Test R19.3');
+L.savePersonalBudget(db,{applicationId:pme.id,salary:0,otherIncome:250000,personalExpenses:100000,creditTontinePayments:30000},'Test R19.3');
+L.savePersonalBalance(db,{applicationId:pme.id,savings:300000,cash:100000,furniture:200000,vehicle:500000,property:2500000,bankDebt:200000,otherCreditors:100000},'Test R19.3');
+for(const dim of L.RISK_DIMENSIONS)L.setInstitutionalRisk(db,pme.id,dim,'Satisfaisant','Preuve test','Test R19.3');
+L.addGuarantee(db,{applicationId:pme.id,type:'Matériel',description:'Garantie test',declaredValue:pme.requestedAmount*1.2,expertValue:pme.requestedAmount*1.1,retainedValue:pme.requestedAmount*1.05,status:'Expertisée'},'Test R19.3');
+pol=evaluateFieldPolicies(db,pme.id);assert.equal(pol.checks.find(x=>x.code==='PME_GARANTIE').status,'CONFORME');assert.equal(fieldContradictions(db,pme.id).length,0);
+const d=L.dossier(db,pme.id),ctx=buildCopilotContext(db,d,agent);assert.equal(ctx.application.id,pme.id);assert.match(answerCopilotOffline('Explique-moi ce dossier',ctx),/INCLUSCORE/);assert.match(answerCopilotOffline('Que manque-t-il ?',ctx),/À compléter|Aucun manque/);assert.match(answerCopilotOffline('Explique les garanties',ctx),/couverture/i);
+for(const a of db.applications){const member=db.members.find(m=>m.id===a.memberId);const u={...agent,scopeMode:'GLOBAL'};const c=buildCopilotContext(db,L.dossier(db,a.id),u);assert.ok(answerCopilotOffline('Explique-moi ce dossier',c).length>80,`copilote dossier ${a.id}`)}
+const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),ui=fs.readFileSync(new URL('../src/az-app.js',import.meta.url),'utf8');assert.equal((html.match(/<!doctype html>/gi)||[]).length,1,'HTML unique');assert.ok(html.includes('id="copilotFab"'));assert.ok(html.includes('az-app.js?r=19.3'));assert.ok(!html.includes('responsable.credit'));assert.ok(!html.includes(' · admin · '));for(const t of ['Formulaire terrain — crédit salarié','Formulaire terrain — PME','editPmeBusiness','editSalarySfd','CREDIPASS AI COPILOT'])assert.ok(ui.includes(t),t);
+console.log(`R19.3 SFD FIELD + AI COPILOT: PASS — ${db.applications.length} dossiers explicables, règles salarié/PME configurables et UI copilote flottante`);

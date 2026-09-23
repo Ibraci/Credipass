@@ -1,0 +1,33 @@
+{
+  "release": "R19.3.2 POSTGRESQL CENTRAL — ACCOUNTS READY",
+  "name": "CREDIPASS — IndexedDB terminaux + PostgreSQL central + 10 comptes de démonstration",
+  "generatedAt": "2026-09-22T22:43:05.173933+00:00",
+  "files": 235,
+  "manifestEntries": 233,
+  "manifestPolicy": "MANIFEST_SHA256.txt hashes all payload files except MANIFEST_SHA256.txt and RELEASE_MANIFEST.json; RELEASE_MANIFEST.json stores the manifest hash to avoid a circular checksum.",
+  "sha256Manifest": "0e6c5504bad257fe32b599ed35ec4402f7d17ebf4396e29a2d3d4562184a3555",
+  "architecture": {
+    "terminal": "IndexedDB offline-first",
+    "central": "PostgreSQL mandatory in production",
+    "api": "Node.js CREDIPASS",
+    "sqliteProduction": "removed",
+    "testStore": "memory only when CREDIPASS_TEST_MODE=1 or NODE_ENV=test"
+  },
+  "certification": {
+    "testAll": "PASS",
+    "r19_3_2": "PASS",
+    "javascriptSyntax": "PASS — 161 JS/MJS files",
+    "sqliteFiles": "0",
+    "realPostgreSQL": "SKIP — no PostgreSQL instance available in build environment; no real DB PASS claimed",
+    "realAiProvider": "SKIP — no real provider/model configured; no real AI PASS claimed",
+    "demoAccounts": "PASS — 10/10 comptes et mots de passe distincts"
+  },
+  "physicalValidation": "Android/PC/LAN/offline test remains environmental and must be run on target hardware.",
+  "demoAccounts": {
+    "count": 10,
+    "passwordPolicy": "mot de passe distinct par rôle, mémorisable, suffixe @2026",
+    "resetScript": "PREPARER_COMPTES_DEMO.bat",
+    "credentialsDocument": "COMPTES_DEMONSTRATION.md",
+    "test": "PASS — 10/10 comptes authentifiés"
+  }
+}

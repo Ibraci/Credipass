@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as L from '../src/modules/creditLedgerR15.js';
+import {DEMO_USERS,can,requirePermission} from '../src/modules/accessControlR18.js';
+const db=L.seed();
+assert.ok(db.members.length>=20);assert.ok(db.applications.length>=20);
+assert.ok(DEMO_USERS.length>=8);
+const byLogin=x=>DEMO_USERS.find(u=>u.login===x); const agent=byLogin('agent.credit'),comite=byLogin('comite.credit'),audit=byLogin('auditeur'),admin=byLogin('admin.systeme');
+assert.ok(can(agent,'APPLICATION_CREATE'));assert.equal(can(agent,'CREDIT_APPROVE'),false);
+assert.ok(can(comite,'CREDIT_APPROVE'));assert.equal(can(comite,'POLICY_EDIT'),false);
+assert.ok(can(audit,'AUDIT_VIEW'));assert.equal(can(audit,'APPLICATION_EDIT'),false);
+assert.ok(can(admin,'USER_ADMIN'));assert.equal(can(admin,'CREDIT_APPROVE'),false);
+assert.throws(()=>requirePermission(agent,'CREDIT_APPROVE'));
+const app=fs.readFileSync(new URL('../src/az-app.js',import.meta.url),'utf8');
+for(const s of ['Mode terrain','Hors connexion','Passeport financier','Historique des paiements','À synchroniser','requirePermission','Confiance des données','INCLUSCORE'])assert.ok(app.includes(s),s);
+assert.equal(app.includes('Espace membre'),false,'Espace membre doit être hors priorité');
+console.log(`R18 SCORING & ACCESS: PASS — ${DEMO_USERS.length} rôles/comptes, ${db.members.length} membres, ${db.applications.length} dossiers`);

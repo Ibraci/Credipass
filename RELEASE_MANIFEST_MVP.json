@@ -1,0 +1,1222 @@
+{
+  "release": "CREDIPASS MVP FINAL",
+  "base": "R19.3.2 PostgreSQL Central + Premium Header",
+  "fileCount": 243,
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "3620db7a22b26e53097a4f042c1de23922ea22d6a988eb163f76305d8ef396fd",
+      "bytes": 757
+    },
+    {
+      "path": ".env.postgres.example",
+      "sha256": "fb985bca2975c025381e28ad93402cd95620c920eb881f9139667c0ff65b8d67",
+      "bytes": 93
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "47463c39dbd947dc868c170d9a109439ae0358f04808639b88219ac786dcc724",
+      "bytes": 150
+    },
+    {
+      "path": "ARCHITECTURE_POSTGRESQL.md",
+      "sha256": "a752e42a2325c7c179f68320ebabf74a28e7422ad768ba615cab72f8cf5fbde3",
+      "bytes": 1796
+    },
+    {
+      "path": "AUDIT_COMPTES_DEMO.md",
+      "sha256": "86c4e588e687ca85d8b7672594867ae8e55d06d022ee60f3f0e7f9130e1b5410",
+      "bytes": 1309
+    },
+    {
+      "path": "AUDIT_MASTER_8_LOTS_FINAL.md",
+      "sha256": "d4e663c00eadf89e8585fcebcd10d1fb3b11bcec5d47077bda4f1cb25cb24aee",
+      "bytes": 1712
+    },
+    {
+      "path": "AUDIT_R10_FINAL_UI.md",
+      "sha256": "4d764d56a9bd6a8afd963703159c3a92b7a8fc1f69635abc620e1209045ab6dc",
+      "bytes": 1626
+    },
+    {
+      "path": "AUDIT_R11_TRANSACTIONAL.md",
+      "sha256": "4232ec063a23e3573273bb81825b4ef4ec6fad0aae44e3e17d7ed17e287cc3de",
+      "bytes": 1431
+    },
+    {
+      "path": "AUDIT_R12_A_Z.md",
+      "sha256": "0e00213982207db488286737e70e53b72fca4148788ee55080ebf322d80106b1",
+      "bytes": 1578
+    },
+    {
+      "path": "AUDIT_R13_GOLD.md",
+      "sha256": "22a562b7f3d02e260a2bc5a06af5d3834d289cfd5a45ab1d0aabd05a400b96db",
+      "bytes": 1741
+    },
+    {
+      "path": "AUDIT_R15_INSTITUTIONAL.md",
+      "sha256": "fd02784f33706dc87156da08147633f3b3199cc3ff8ecead3c2a30d34e712e82",
+      "bytes": 1449
+    },
+    {
+      "path": "AUDIT_R16_GOLD_UX.md",
+      "sha256": "1d39ad22e06177912c14133a6ae84402cc216299aae6b775eda6631fe7a3b6e2",
+      "bytes": 770
+    },
+    {
+      "path": "AUDIT_R17_DATA_LAYER.md",
+      "sha256": "d5c977af282d9f927d44b939908884552c2fe58ec9a8157bcd5faa1bf4ca8aa5",
+      "bytes": 1145
+    },
+    {
+      "path": "AUDIT_R18_1_HARDENING.md",
+      "sha256": "dbbf96be8b177f707fe66c0dd342cc5e8d7c29f20186406b993cfdca3ef7cffd",
+      "bytes": 1045
+    },
+    {
+      "path": "AUDIT_R18_2_FINAL_HARDENING.md",
+      "sha256": "024efb9b6291f45098528b0c59a251c47c821cf8694dedd24c94c4999a6acd85",
+      "bytes": 1228
+    },
+    {
+      "path": "AUDIT_R18_3_PRODUCTION_GREEN.md",
+      "sha256": "f53abdb25c33464c971a2b639963bc5cf88a1942d75d75f4dc929bc1d58351b2",
+      "bytes": 1291
+    },
+    {
+      "path": "AUDIT_R18_4_CERTIFICATION_HARDENING.md",
+      "sha256": "9db548093f53b975cd99cabb7a326c3cf88c3bb606cfba20da0ef523ab265f42",
+      "bytes": 2631
+    },
+    {
+      "path": "AUDIT_R18_5_ROLE_CONSOLIDATION.md",
+      "sha256": "70abd71f4afa566e08d0559d38bc95e6b5bb46dfea001ceb1835202b74fa0c71",
+      "bytes": 749
+    },
+    {
+      "path": "AUDIT_R18_6_PRODUCTS_POLICIES.md",
+      "sha256": "713c24f3b2a7ff90edd7c8ab454928a8236aa80a969c7b3a844d7986a0a454b1",
+      "bytes": 1299
+    },
+    {
+      "path": "AUDIT_R18_7_DATA_PASSPORT_AUDIT.md",
+      "sha256": "feb1ecf7424ac0dcb989a4e97ef240976a1d0302691633579f11c89cb46ffbb4",
+      "bytes": 1506
+    },
+    {
+      "path": "AUDIT_R18_SCORING_ACCESS.md",
+      "sha256": "1ce6ae109c758f5b34bb83150f36fae0a781c1919a735a3c064db5a1d4d29c40",
+      "bytes": 1744
+    },
+    {
+      "path": "AUDIT_R19_1_DECENTRALIZED_AI.md",
+      "sha256": "34892bc878c2f8075c1bc5ef356c4447e4661f81ae37cde1a7d100d7383b0ec1",
+      "bytes": 1263
+    },
+    {
+      "path": "AUDIT_R19_2_DECENTRALIZED_SYNC_HARDENING.md",
+      "sha256": "72569958463a0bc8f77a7fc6cb826eb596553a644ea1d5e6c9ff48b236986253",
+      "bytes": 1211
+    },
+    {
+      "path": "AUDIT_R19_3_1_BLOCKER_HARDENING.md",
+      "sha256": "42d98ef5128738e7140552d02c4632e91d7306ee364b5fa8c7c7d67c54d994d7",
+      "bytes": 4174
+    },
+    {
+      "path": "AUDIT_R19_3_2_POSTGRESQL_CENTRAL.md",
+      "sha256": "2041855916096def36ee90131527708837d210657e0ba7320ccaf9a7d2a3990b",
+      "bytes": 1498
+    },
+    {
+      "path": "AUDIT_R19_3_SFD_FIELD_AI_COPILOT.md",
+      "sha256": "5f86253ff7df7924a48a6ef031f285490c10568c6ea39dcb3b5c72770ae9dbad",
+      "bytes": 1129
+    },
+    {
+      "path": "AUDIT_R19_GOLD_CERTIFICATION.md",
+      "sha256": "7a45dbb923e66313f9aabcfc1a95179c253a564e90a6275af30423001d59f423",
+      "bytes": 1383
+    },
+    {
+      "path": "AUDIT_R3_CLEAN_MASTER.md",
+      "sha256": "baa55e3d008811a68d322da34917d7edc4e362b4f218968d94f5a01e36b18ea9",
+      "bytes": 2053
+    },
+    {
+      "path": "AUDIT_R4_FINAL_CLEAN.md",
+      "sha256": "0957015de30ba57ed708840d199923dbd29966340a0ccbea378c661a418bc9b2",
+      "bytes": 2457
+    },
+    {
+      "path": "AUDIT_R5_RELEASE_CANDIDATE.md",
+      "sha256": "bbca08d529ff061d8d3d4e997ea5717a9983b33f755b4d0b43e252e6f5fb9a64",
+      "bytes": 1431
+    },
+    {
+      "path": "AUDIT_R6_FINAL_DELIVERY.md",
+      "sha256": "3d3cf2ea1df4f2f185bc65b69420d6c937cad6625e01ce0024ab4f94a3ce7b77",
+      "bytes": 1121
+    },
+    {
+      "path": "AUDIT_R7_PRODUCT_CLEAN.md",
+      "sha256": "493f3328f7755d552ae6bd9d843ae3a4e00c784a3e1d7dba6df5d69423e87d7f",
+      "bytes": 1720
+    },
+    {
+      "path": "AUDIT_R8_BOOT_GATE.md",
+      "sha256": "b5f4a318cda78a919731473b7c553c35a2d1754319b9036872c7fba853abf444",
+      "bytes": 1305
+    },
+    {
+      "path": "AUDIT_R9_RUNTIME_RECOVERY.md",
+      "sha256": "4841a81bd421ac69838b4823a8101d49dcb584a92489e8e6dd0eb1b050b15bad",
+      "bytes": 1247
+    },
+    {
+      "path": "BLOCKERS_R19_3.md",
+      "sha256": "61ef4744da7ba6f7b259dfc52c2e52d152ed52f23128c28c81a15827052631fc",
+      "bytes": 821
+    },
+    {
+      "path": "BLOCKERS_R19_3_1.md",
+      "sha256": "bda5f8dfbf608b21fab0963fb28bd1c7d042d6014f40678ccfd3c965211fefe4",
+      "bytes": 1825
+    },
+    {
+      "path": "CERTIFICATION_R19_3_1.md",
+      "sha256": "762a20bce02d5f6dc388ce8fafb4b7c155f4d42947d7e305172aebb2d2df7abf",
+      "bytes": 2159
+    },
+    {
+      "path": "CERTIFICATION_R19_3_MULTI_NODE_OFFLINE_AI_METIER.md",
+      "sha256": "2ac38b7122f7202112868be108548236bac262634bff9f93c72e33e7ff499918",
+      "bytes": 1041
+    },
+    {
+      "path": "CHECKLIST_AVANT_JURY.md",
+      "sha256": "d3d5cc4d70f3876120094e71ee1952459a987bd55749455b3b5239048669befc",
+      "bytes": 1110
+    },
+    {
+      "path": "COMPTES_DEMONSTRATION.md",
+      "sha256": "3c3c5707857488d192c215d8f4ada6bb3bfc473f532cc31cc9fa45d23a6f8f95",
+      "bytes": 1247
+    },
+    {
+      "path": "COMPTES_MVP.md",
+      "sha256": "678dc5345b7278b041bc861a5e1759843d75b625bf090c9932b49378f8781f01",
+      "bytes": 551
+    },
+    {
+      "path": "CONFIGURATION_IA.md",
+      "sha256": "5825724763b9ef4ec695bea2661957ae6b2ebeb9901bab7f020645836f7b8e6f",
+      "bytes": 2155
+    },
+    {
+      "path": "CONTROLE_AVANT_GITLAB.md",
+      "sha256": "8f8d6c2e18bb0f21485a4d487e0d7e99d81c0837635c636de48c5a9383b0e974",
+      "bytes": 2079
+    },
+    {
+      "path": "DEMO_JURY_7M30.md",
+      "sha256": "1b4e703fc58c6c8dd18d964e443ee2c1a2d7299a32fd28ac423b70945fd82f1e",
+      "bytes": 2189
+    },
+    {
+      "path": "DIAGNOSTIC_DEMARRAGE.md",
+      "sha256": "03345d0def385b7eac0c00a9c286f9a6e5da207269cd8c9c4c6ec05f0c4a15f8",
+      "bytes": 1058
+    },
+    {
+      "path": "INSTALLATION_POSTGRESQL.md",
+      "sha256": "a53788ecccfe512a34a1c33d768cca57b4e6cc0ac29f505cf4d84cb4d26d549d",
+      "bytes": 1834
+    },
+    {
+      "path": "LANCER_CREDIPASS.bat",
+      "sha256": "61adb74322582eddef8a9488b3697205bfb00de15de2a724c657729ff809f8e8",
+      "bytes": 2118
+    },
+    {
+      "path": "LANCER_CREDIPASS_LAN.bat",
+      "sha256": "c5f36a3768c7fcde0f81778cde56a015a78fd44efe95c2ad2bb0aa43a5cc69b3",
+      "bytes": 1201
+    },
+    {
+      "path": "LANCER_MVP_DEMO.bat",
+      "sha256": "7529df7c8d74cf6d401374706a7795d9bd2c5343142334d5019bd7bbce02766c",
+      "bytes": 460
+    },
+    {
+      "path": "MANIFEST_SHA256.txt",
+      "sha256": "0e6c5504bad257fe32b599ed35ec4402f7d17ebf4396e29a2d3d4562184a3555",
+      "bytes": 22692
+    },
+    {
+      "path": "MVP_FREEZE.md",
+      "sha256": "6db11898aac925a9baf23f53bb562743fd38de6f72268b38d74ea24bf9afd307",
+      "bytes": 1243
+    },
+    {
+      "path": "PREPARER_COMPTES_DEMO.bat",
+      "sha256": "85a54fc4a4db5080c34a4b4f855ca26c2db0d85411336d1683ee93ca2977fba0",
+      "bytes": 837
+    },
+    {
+      "path": "PREPARER_POSTGRESQL_DOCKER.bat",
+      "sha256": "47582724cf8f00a08889a7f171cfe2b6d68f84d2c4a96550730d30ef3533ed51",
+      "bytes": 304
+    },
+    {
+      "path": "PREPARER_POSTGRESQL_DOCKER.ps1",
+      "sha256": "44c46bbedcec103e6550a18d2d70bdda2688a9fc95f19881d26d9576cbe39ba2",
+      "bytes": 2422
+    },
+    {
+      "path": "QUESTIONS_JURY_MVP.md",
+      "sha256": "14f18d8c46f7d92f1bc70ee1e99b2ba0228f49023d3d950b3daadbb9de137689",
+      "bytes": 1056
+    },
+    {
+      "path": "README.md",
+      "sha256": "dc0eac43e016f6b5b888d93d742d3abea2393f1e2839bc31d1908c300c523baf",
+      "bytes": 6427
+    },
+    {
+      "path": "RELEASE_MANIFEST.json",
+      "sha256": "3f2e363f34e96dd9dbc9378fd35531d5fb5f42f4b136b0ccdaa462a3981fe0fd",
+      "bytes": 1631
+    },
+    {
+      "path": "Serve-CrediPass.ps1",
+      "sha256": "e64b26a614a7063d94b3c7d85289712ba260fe066414d24c653ae689fe6bf660",
+      "bytes": 801
+    },
+    {
+      "path": "TEST_PHYSIQUE_R19_3_1.md",
+      "sha256": "a44bb58a8a51343fa945d8541392cf58a213b944f0613ee8167766a9f4ea61d7",
+      "bytes": 3543
+    },
+    {
+      "path": "TEST_PHYSIQUE_R19_3_2.md",
+      "sha256": "a66a9c880f80760dd8b1a5c2fdbc205d3f90c692fe68e715aa99338ad8acf54d",
+      "bytes": 3791
+    },
+    {
+      "path": "TEST_RESULTS_MVP.txt",
+      "sha256": "96852b2e21468e5e33f999f584cbb9a516225f9eb6a46b6dd436772296823da4",
+      "bytes": 2797
+    },
+    {
+      "path": "TEST_RESULTS_R19_3.txt",
+      "sha256": "8c967501ef28b3e07a57418fd2699af96bf9e04f801568e350bdf280bff97485",
+      "bytes": 2630
+    },
+    {
+      "path": "TEST_RESULTS_R19_3_1.txt",
+      "sha256": "9608f8c52296158a54865e1e41b5473a24d2f44bb31f53fed84970c0d8ba475b",
+      "bytes": 2824
+    },
+    {
+      "path": "TEST_RESULTS_R19_3_2.txt",
+      "sha256": "3b98061c22795f2f2cca48fe14a5336aa01d07d29b421eb12ee7e32ebbc7f2a0",
+      "bytes": 3014
+    },
+    {
+      "path": "TRACK_B_ADAPTATION.md",
+      "sha256": "b68dcfac30188c6a22b0c85625d12a9b56fcf4e0ef6adc939bac46d807d6fce1",
+      "bytes": 2436
+    },
+    {
+      "path": "VERIFIER_MVP.bat",
+      "sha256": "ac12fb691e01666644af878cdac35c5193850d9cce35b72ad720b52ea929b4a6",
+      "bytes": 513
+    },
+    {
+      "path": "assets/logo-credipass.png",
+      "sha256": "22a91dbaf310adf4e7fb299956d4ca3dbe5c0c702303c47d08c01a36cf82e184",
+      "bytes": 35410
+    },
+    {
+      "path": "db/postgresql/001_init.sql",
+      "sha256": "7eb8165515d61eb8f4d690c701089c1e14bb1b809eda493f5d067f13907510c4",
+      "bytes": 2427
+    },
+    {
+      "path": "db/seed/central-demo-state.json",
+      "sha256": "f7e1fc4858a7c62d5861aed3c9c1ef5e8a453e61ebd61c3190a4bf1a4908cb3a",
+      "bytes": 78
+    },
+    {
+      "path": "docker-compose.postgresql.yml",
+      "sha256": "c9a38699488702aab43f1735ea01384afa06a81b2eb64381052461b25599cc3a",
+      "bytes": 557
+    },
+    {
+      "path": "index.html",
+      "sha256": "09ec6e2b8e0e593de2ac8c5bfde2f6c4f69258ee4120484b37b2554c1d18fc0d",
+      "bytes": 5787
+    },
+    {
+      "path": "manifest.webmanifest",
+      "sha256": "319f5e46c10711f13c6afdd59c289516403567295cda8d8b869bec445e5b4dc1",
+      "bytes": 424
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "27965b28912ba1c133992b453cde31b5711a80ae3c98b355b15d4ebb9048d02f",
+      "bytes": 696
+    },
+    {
+      "path": "package.json",
+      "sha256": "3cb724ef4c4e4b75d764e89c0daf6729b0a8ae6518fdfe870277b55d2725ed2f",
+      "bytes": 3221
+    },
+    {
+      "path": "scripts/boot.mjs",
+      "sha256": "f21a85c70194da9ef38f5db1d5097251bf56698f0dbc7c6a1c172992428abf84",
+      "bytes": 241
+    },
+    {
+      "path": "scripts/check-postgres.mjs",
+      "sha256": "e374734c5beab0cf999ab00a7643a60342e588556bb64a61b9f37652ddeb17b3",
+      "bytes": 684
+    },
+    {
+      "path": "scripts/lib/demo-accounts.mjs",
+      "sha256": "07b22adeeb9efde0e358374e1a9716258df4ec5b54ddcb515893add2a1ba2f19",
+      "bytes": 2084
+    },
+    {
+      "path": "scripts/lib/env-loader.mjs",
+      "sha256": "f5741cfc9b5f0b3dbc0dd3570fac211ff85f9f07b060669572c0a708550c1d6b",
+      "bytes": 691
+    },
+    {
+      "path": "scripts/lib/storage.mjs",
+      "sha256": "bba80cd21f6d852a8394dd3fa9bf848d8759196cf9ca30e8cae3a08ab63c6ba0",
+      "bytes": 11210
+    },
+    {
+      "path": "scripts/reset-demo-accounts.mjs",
+      "sha256": "b486d8bc69c593588818dc9e768dfc787a2a297a47f36a5054415016a45133c2",
+      "bytes": 1182
+    },
+    {
+      "path": "scripts/seed-postgres.mjs",
+      "sha256": "c3d6e317c2b35c866bc47c390cefa447a1870b3d8edd7b59f57965256df29cf5",
+      "bytes": 1082
+    },
+    {
+      "path": "scripts/serve.mjs",
+      "sha256": "074656c197a73ecd484bf842785ff34be5065a9543ac9c6b02604cdf903c0fa6",
+      "bytes": 20703
+    },
+    {
+      "path": "src/app.js",
+      "sha256": "76dd055e106f6871cfd55acbc44ab00779500dbe6fd38b404cbf9ea44cd9f3bb",
+      "bytes": 432393
+    },
+    {
+      "path": "src/az-app-r12.js",
+      "sha256": "2835c4c6ffc43bbbb20ba320e529c6fa0d75bd6da633d199d5c2879aa63eefba",
+      "bytes": 18130
+    },
+    {
+      "path": "src/az-app.js",
+      "sha256": "1d41c900b9d19547408bc303ca3d77f1cd661fd77de96d55f6c81a58df2dd737",
+      "bytes": 59831
+    },
+    {
+      "path": "src/az.css",
+      "sha256": "ced6c3922a41d91ed90b2ecc569d572ab6db533fd7a4ba506d1144b012351e04",
+      "bytes": 20812
+    },
+    {
+      "path": "src/config/communicationPolicies.js",
+      "sha256": "f35d86c586e32f817275aa359325ab63e6e56e24a6f12c9b475a99aa0cf4b9f3",
+      "bytes": 1753
+    },
+    {
+      "path": "src/config/coopScorePolicies.js",
+      "sha256": "359157b6e96fc5cfe5348c08bea33a79413cec93fcea54e8516c9e05a42048ac",
+      "bytes": 2488
+    },
+    {
+      "path": "src/config/creditGovernancePolicies.js",
+      "sha256": "130a2613032a36db90611bcb8e87aede8016907e289408779cd146985230ac4e",
+      "bytes": 1127
+    },
+    {
+      "path": "src/config/creditSimulationPolicies.js",
+      "sha256": "cfd6f817aaf5d3377230865e4d6ed0ba5d7765371d55888333fb9da2f926ee30",
+      "bytes": 3495
+    },
+    {
+      "path": "src/config/earlyWarningPolicies.js",
+      "sha256": "d8d8bbf1ba019a93979db3dc7a4655a0f2581c9b8549d9b2c32d02d73fe64155",
+      "bytes": 4727
+    },
+    {
+      "path": "src/config/financialHealthPolicies.js",
+      "sha256": "5ed5a0e5a546ff8e340133e6bdf5851ebfce6ba8531cdbeebf9174399f9e449d",
+      "bytes": 3043
+    },
+    {
+      "path": "src/config/financialLearningCatalog.js",
+      "sha256": "f70b93cd17dcbf62fd7f345d88a7c582d0710caf46583fa4afa94974b14f0332",
+      "bytes": 3320
+    },
+    {
+      "path": "src/config/financingFilePolicies.js",
+      "sha256": "9b2959363cddfd0bc3ae7a9760919de868a924911f4c8308a9994398d1392b3e",
+      "bytes": 1560
+    },
+    {
+      "path": "src/config/groupFinancingPolicies.js",
+      "sha256": "11546dc8731e3e87876b9a51dcb34d7d88c890fb46b6313781037cb84311d5da",
+      "bytes": 2167
+    },
+    {
+      "path": "src/config/incluscorePolicies.js",
+      "sha256": "a164bfbe72368fa3b64cb286aee85c8cad3764db631479ec5e184b215b205b08",
+      "bytes": 3154
+    },
+    {
+      "path": "src/config/inclusionObservatoryPolicies.js",
+      "sha256": "18f9a8d3eee887d775d5e316fe173519d4151ed3e81b55022d2edd18230f3dee",
+      "bytes": 1196
+    },
+    {
+      "path": "src/config/institutionalPolicies.js",
+      "sha256": "89d079f1a969a33df771fd0d9b04875361100c556fa4067d2777568d5a329fd6",
+      "bytes": 7161
+    },
+    {
+      "path": "src/config/offlineSyncPolicies.js",
+      "sha256": "cb5c7f9cd2dbcee36465593860c7c35840470d8b0537f8101dac1783427d6eed",
+      "bytes": 1461
+    },
+    {
+      "path": "src/config/portfolioRiskPolicies.js",
+      "sha256": "16cbff00a7e10295552527956ced6b1a250a3a1f5bb1aa86023428f2b7a91871",
+      "bytes": 2702
+    },
+    {
+      "path": "src/config/privacyPolicies.js",
+      "sha256": "d7bafce0c9f667399b686163d4b2206ff857f475e6b061156ca4b753f4e205ff",
+      "bytes": 3320
+    },
+    {
+      "path": "src/config/productMatchingPolicies.js",
+      "sha256": "c2584c51abcc43c9bb86583e012a7c4a776db45f7266e92215f29691aed926e7",
+      "bytes": 1234
+    },
+    {
+      "path": "src/config/progressionPolicies.js",
+      "sha256": "aaa5c0f17c696a50723486a8efd8edd4d6dd7ec743ee16d131217591cd1a6d84",
+      "bytes": 2798
+    },
+    {
+      "path": "src/config/readinessPolicies.js",
+      "sha256": "56e120e14f166d0ef281697a85a4d1f651d4a5146ec0236da0950367804de621",
+      "bytes": 963
+    },
+    {
+      "path": "src/config/reportingTemplates.js",
+      "sha256": "5624a77d1b678b1132d6fb9bd2d7f340d3dd95e170ef5ab1ada70ebc8c4deca3",
+      "bytes": 5797
+    },
+    {
+      "path": "src/config/seasonalCalendars.js",
+      "sha256": "b4ab86035cfb60318ba9cd149f033d26ff34951f66249c678b6124f23a389460",
+      "bytes": 1748
+    },
+    {
+      "path": "src/config/securityGovernancePolicies.js",
+      "sha256": "2d2123c315c3e524cffb9a08418437118fade094066c7fa09c713df3689f8edd",
+      "bytes": 3702
+    },
+    {
+      "path": "src/config/trustVerificationPolicies.js",
+      "sha256": "35f85148edc3ca73b42705f4f1b65a1eb0eba9165be098a98a2a14aff5142c58",
+      "bytes": 2187
+    },
+    {
+      "path": "src/data/custom-case.js",
+      "sha256": "c5f2ef6613b4ad5958dbc50dc32cc729d91bf1f8ea429a717a5a57660b3a7125",
+      "bytes": 3164
+    },
+    {
+      "path": "src/data/financing-documents.js",
+      "sha256": "7bf32b4d0298d5cf2674364abfd92b3a126666fb16e2c251f3309382942ff779",
+      "bytes": 4364
+    },
+    {
+      "path": "src/data/post-financing-scenarios.js",
+      "sha256": "085c5a6317d682cf4d8f304460a3ffb837894dc0aea1a96d8985d2ac0bdaa120",
+      "bytes": 6777
+    },
+    {
+      "path": "src/data/scenarios.js",
+      "sha256": "03ea48849d0baff3c87ec2cd0f51e26c10e9afda5b35e0d3ad90217b238daa8a",
+      "bytes": 8636
+    },
+    {
+      "path": "src/engines/audit.js",
+      "sha256": "2e215c66c467d04d7f846488cfd738a650200f9b579121f222cbb8988844287e",
+      "bytes": 473
+    },
+    {
+      "path": "src/engines/cashflowEngine.js",
+      "sha256": "209ce780c1ac61e73cd10684869e4a08af69db0b7b9b5a092418e05455fe1300",
+      "bytes": 7171
+    },
+    {
+      "path": "src/engines/characterTrustEngine.js",
+      "sha256": "bb2a837c8041fb537da692cdd816551cf2856cce53214e88caa050693ec4ab1f",
+      "bytes": 3740
+    },
+    {
+      "path": "src/engines/communicationEngine.js",
+      "sha256": "3304d8c4e45057a11aca810584f4d82d5635cdbb942968adde0b70e5d0481812",
+      "bytes": 11632
+    },
+    {
+      "path": "src/engines/consentPrivacyEngine.js",
+      "sha256": "afd4156257fc1628b798729b8c597775e670b74865ce8a8d828fad8823d839bd",
+      "bytes": 9218
+    },
+    {
+      "path": "src/engines/coopScoreEngine.js",
+      "sha256": "cc119ce7524f0b133d29c459dcb34509c093b6fd5109d972a04a527eb9f18d44",
+      "bytes": 13459
+    },
+    {
+      "path": "src/engines/creditSimulationEngine.js",
+      "sha256": "4510d0c6fe286c0c94fcea900a8d2802b49f56aa832d64fa5081b8a3ef30f081",
+      "bytes": 16006
+    },
+    {
+      "path": "src/engines/creditWorkflowEngine.js",
+      "sha256": "58344bd1425339cb30fc6e00c06fa1201b0513d7c1bf6d7a52c4369b82773376",
+      "bytes": 11443
+    },
+    {
+      "path": "src/engines/dataQualityEngine.js",
+      "sha256": "babf33b269ea7e93e53af96b3a4a62cbde92e87cb4565fac7f201becc9f93dc3",
+      "bytes": 4782
+    },
+    {
+      "path": "src/engines/debtEngine.js",
+      "sha256": "26678a51d0d92ea8b34391de240eda7d198b2093c72bf4cfcfc3fdeac74649cc",
+      "bytes": 8570
+    },
+    {
+      "path": "src/engines/digitalVaultEngine.js",
+      "sha256": "6e3814c3e5ee4253c9c787729818321eb3748c69fd35115ed7bf4aacb5661dc2",
+      "bytes": 4155
+    },
+    {
+      "path": "src/engines/documentIntelligenceEngine.js",
+      "sha256": "6c110357c8ac6d381cb4a9bae6cd1d2e8ba3eca563a288da34a4970a69d16fbe",
+      "bytes": 3835
+    },
+    {
+      "path": "src/engines/earlyWarningEngine.js",
+      "sha256": "5c71aaae38201e2881fb55cd168dcf3044a6b710c5889214d8c30bf46c7ac041",
+      "bytes": 8493
+    },
+    {
+      "path": "src/engines/engineRegistry.js",
+      "sha256": "9f4ac6d184f64b7e3630edaf474e073fc167da097d29be12428fd0ec975cc7e4",
+      "bytes": 5178
+    },
+    {
+      "path": "src/engines/evidenceEngine.js",
+      "sha256": "f9b299cbbf897983d4ac571e9d8a336c45d655650b6e79a80d56c6c0298688cd",
+      "bytes": 1762
+    },
+    {
+      "path": "src/engines/fieldOperationsEngine.js",
+      "sha256": "8d13be9b956d4cb77a4c39fd4864cc5cc4bc5eb6a6382b6d71a20751f1c609bb",
+      "bytes": 914
+    },
+    {
+      "path": "src/engines/financialHealthEngine.js",
+      "sha256": "748df0d7d15dce6511b2b8e47d422f367b6b5c3237564038a1f0c234ec399e6b",
+      "bytes": 11770
+    },
+    {
+      "path": "src/engines/financialLearningEngine.js",
+      "sha256": "6e050b92df9473bdef2d8f9712cc34603d55a5b072533d6f10e37935bd002f26",
+      "bytes": 4465
+    },
+    {
+      "path": "src/engines/financialPassportEngine.js",
+      "sha256": "aba30d9f14679ec9f8e9b6e0289f147298807f30bc23e2db064b06ab218a29d1",
+      "bytes": 15424
+    },
+    {
+      "path": "src/engines/financialProgressionEngine.js",
+      "sha256": "7f5928249630dab29a5738b19b518b30f654dfdc7c024d0a9fbcd57ab1acf625",
+      "bytes": 17490
+    },
+    {
+      "path": "src/engines/financingFileEngine.js",
+      "sha256": "66a2ca8b2360e28b0f92d9be9aac4a06c98f9cb64b4483855839de674f0ab001",
+      "bytes": 5665
+    },
+    {
+      "path": "src/engines/groupFinancingEngine.js",
+      "sha256": "cc615f53bb10ce6378ece719060ac0fcfcaa308c131cca153f89ff425ce001a7",
+      "bytes": 15466
+    },
+    {
+      "path": "src/engines/guaranteeAssessmentEngine.js",
+      "sha256": "17e5cbd320bed25293a7ddfb0f85a382c5b4dd536818d7173552ec9abee22b96",
+      "bytes": 1329
+    },
+    {
+      "path": "src/engines/humanOverrideAppealEngine.js",
+      "sha256": "40cb355872bfbae136a7d8a40edd8daacf82b8cb461666f71a0fe0b3af18bb9e",
+      "bytes": 10697
+    },
+    {
+      "path": "src/engines/incluscoreEngine.js",
+      "sha256": "62ec7efe15b67d3a54ce8924c9a4b69fdff21a705260d08b93048ce0e16a4287",
+      "bytes": 12463
+    },
+    {
+      "path": "src/engines/inclusionAnalyticsEngine.js",
+      "sha256": "a7d78b359077770f9bb2767799cc1b8766b78e04166c69c65b624ee9827e1d61",
+      "bytes": 6136
+    },
+    {
+      "path": "src/engines/institutionalConnectorEngine.js",
+      "sha256": "ffb91f387e0e13f3543bfafcc6b5b81f1d9eb4aee33d6132e3c43101f82504fb",
+      "bytes": 9845
+    },
+    {
+      "path": "src/engines/institutionalReadinessEngine.js",
+      "sha256": "2af7f57a5a4ed93b779fccc9a8b7590310133a1fa7d0424576e873704ae37938",
+      "bytes": 14564
+    },
+    {
+      "path": "src/engines/modelValidationEngine.js",
+      "sha256": "563c26992b7a7d16dc77c77028ad066b14d5501b6c69a118ca1f2b844514c563",
+      "bytes": 3797
+    },
+    {
+      "path": "src/engines/offlineSyncEngine.js",
+      "sha256": "74b2775753107240dee4a67101c909e6f2ed40daece15b16aca9bbad81e800c6",
+      "bytes": 11336
+    },
+    {
+      "path": "src/engines/policyRulesEngine.js",
+      "sha256": "8e34d6d482935ff4c6e38e92449f7e9e56b81afc312c736b80ab0867017b8378",
+      "bytes": 8830
+    },
+    {
+      "path": "src/engines/portfolioRiskEngine.js",
+      "sha256": "02c62633cca4ec6378b8e089d6330ad3d76836b3e5b35dfa7fe35670b796a98c",
+      "bytes": 11539
+    },
+    {
+      "path": "src/engines/postFinancingMonitoringEngine.js",
+      "sha256": "0cb91d6d54f44425431d264a84d8b3ea805242fdc7aa5e34668dad66cdc57b5b",
+      "bytes": 11479
+    },
+    {
+      "path": "src/engines/productMatchingEngine.js",
+      "sha256": "e90217f2fb806194fbd5f9ce164ab63acfcc267bfd91395512896aa1bba3dafc",
+      "bytes": 10873
+    },
+    {
+      "path": "src/engines/profileEngine.js",
+      "sha256": "ed06cf0b56b3ca8ff7ea96a42bd174ed788a08c0bfcb051d82151581ce8eea08",
+      "bytes": 689
+    },
+    {
+      "path": "src/engines/recommendationOrchestrator.js",
+      "sha256": "fab929d422817e9651b5af1f89546581052bfd818501d4ef41ee485d8da8c734",
+      "bytes": 11852
+    },
+    {
+      "path": "src/engines/regionalOperationsEngine.js",
+      "sha256": "f4e767ec8cc3f763c53ff79a8c28db2ff163cf709c143dcfde4987a5111037d4",
+      "bytes": 1655
+    },
+    {
+      "path": "src/engines/reportingDocumentEngine.js",
+      "sha256": "da03a1f41db62f357d806c9280703b7a8821d494d12f4d8eeab16b06dda3f905",
+      "bytes": 24611
+    },
+    {
+      "path": "src/engines/scenarioEngine.js",
+      "sha256": "c51c3c4a5a5047b171183a0bed3d1b5ac7e37e3cf7fed9f07ea829dc02eba1e2",
+      "bytes": 28324
+    },
+    {
+      "path": "src/engines/seasonalFinanceEngine.js",
+      "sha256": "8959978902154ae70f00fa7b6668832987ca9b4a4e56b7017eb569eea8f9bdde",
+      "bytes": 3670
+    },
+    {
+      "path": "src/engines/securityGovernanceEngine.js",
+      "sha256": "5d9bdd293997046cfe78ab5e37ab1a130d52a039247608f0e66577bfee4cac84",
+      "bytes": 2520
+    },
+    {
+      "path": "src/engines/tenantConfigurationEngine.js",
+      "sha256": "77cbdba26b9154b272d8a447614dd4497076ee015b99d458637bf29558c4594d",
+      "bytes": 1534
+    },
+    {
+      "path": "src/engines/trustVerificationEngine.js",
+      "sha256": "f8dbb8b3b2f677c365424b7edd75f2db42af92d8cf87cd8aa654a8651a6f26ac",
+      "bytes": 11354
+    },
+    {
+      "path": "src/engines/winnerScenarioEngine.js",
+      "sha256": "5ee065e527f1b61c3dbf38464f9ae62b62acd3717aafcc631597c34262d4acb4",
+      "bytes": 2596
+    },
+    {
+      "path": "src/fixtures/README.md",
+      "sha256": "844ec974e8ba1f4487fed53611922023f79aff68bb047b61a4f2327748be9536",
+      "bytes": 563
+    },
+    {
+      "path": "src/fixtures/communication-sample.js",
+      "sha256": "8db5dc9dc6e08f465b387b8bd9624f68a8e906987c78449912d4ddceb633197f",
+      "bytes": 9546
+    },
+    {
+      "path": "src/fixtures/digital-vault-sample.js",
+      "sha256": "69d370ea0afe091495bb9ae1441dc30a6e912552fb9404bcaba1496884ff50be",
+      "bytes": 3897
+    },
+    {
+      "path": "src/fixtures/field-operations-sample.js",
+      "sha256": "d2f9e4751a26a1b9c02e3a97c45009ebf9cd635cd27276f2f11fbb27fe1abecb",
+      "bytes": 4947
+    },
+    {
+      "path": "src/fixtures/financial-products-sample.js",
+      "sha256": "5f34110507889f276897bb859917138b9259e83974c0c94b4160eb4b0cba16d1",
+      "bytes": 7114
+    },
+    {
+      "path": "src/fixtures/inclusion-observatory-sample.js",
+      "sha256": "c49b7752538900abb0dce0f239a37f386b897cd3df6941d4ef2eee93c7bbb158",
+      "bytes": 1828
+    },
+    {
+      "path": "src/fixtures/institutional-connect-sample.js",
+      "sha256": "27f9ef4538ca928f44e44d85309cd21117642860e79aebdde3f3d43dff9a5ae0",
+      "bytes": 5005
+    },
+    {
+      "path": "src/fixtures/institutional-sample.js",
+      "sha256": "07ccb73862148ee6099e0ed031453a8322a3d8adc070a98e163acafaf4edffb2",
+      "bytes": 5650
+    },
+    {
+      "path": "src/fixtures/model-validation-sample.js",
+      "sha256": "9e734fc967b4e1ea0d941626fca83dd035910219d824c5530c6538c83e6ad207",
+      "bytes": 660
+    },
+    {
+      "path": "src/fixtures/portfolio-sample.js",
+      "sha256": "e37361202f8f8ededd0e76335457b040c98e32d876fea049146a3560bc100cd5",
+      "bytes": 12561
+    },
+    {
+      "path": "src/fixtures/regional-operations-sample.js",
+      "sha256": "36c5a9cc54fb2613c16838e44c7db1dd1480c0e6b765eb8e002be3969ca8a09c",
+      "bytes": 2202
+    },
+    {
+      "path": "src/fixtures/sample-aissata.js",
+      "sha256": "c22c32d6a052ddb6cbc2f1e583fac6bbf155bfcae07a71b59154793086b6f452",
+      "bytes": 6041
+    },
+    {
+      "path": "src/fixtures/sample-cooperative.js",
+      "sha256": "01628eb783cb1b1b3c7a53c0ba18687aab9d027d99f0ccfa7c15c9c2f387eba7",
+      "bytes": 12253
+    },
+    {
+      "path": "src/fixtures/sample-mamadou.js",
+      "sha256": "048c328bb845bbef5f5a0e32e42abab4f9311ad468368928635065700c980a28",
+      "bytes": 5995
+    },
+    {
+      "path": "src/fixtures/trust-verification-sample.js",
+      "sha256": "f252934165a0c1d3aee5d863c0da829d57bb20bcfea116f393328e05be076351",
+      "bytes": 2599
+    },
+    {
+      "path": "src/i18n.js",
+      "sha256": "84dcdc962152c8d16e593d2cfaf520183049d814e2fbfddcb6a828746eb1c4b1",
+      "bytes": 37992
+    },
+    {
+      "path": "src/modules/accessControlR18.js",
+      "sha256": "dd64d738509e049256d3a20309695e51432f892036c9f50b4f1c93d0ddf0d292",
+      "bytes": 6089
+    },
+    {
+      "path": "src/modules/authProductionR184.js",
+      "sha256": "39119a67c43d8f6ae1e6d4536eaa774653727e754aad1b6b58a729055cee83f8",
+      "bytes": 2798
+    },
+    {
+      "path": "src/modules/credipassAICopilotR193.js",
+      "sha256": "6537b10c4cd4793090154696c593d59786ea448e79f09befd897a1e0eb031583",
+      "bytes": 7674
+    },
+    {
+      "path": "src/modules/credipassAssistantR191.js",
+      "sha256": "bbea43761d73e0b4b84891ca40124ffef573a3617b35031543f3c0b4d1ecf5a4",
+      "bytes": 4722
+    },
+    {
+      "path": "src/modules/creditLedger.js",
+      "sha256": "02d6db8359cb41fcb7d77c0611aacec7e09d87ced58dea67d1fcd30666bc042a",
+      "bytes": 7486
+    },
+    {
+      "path": "src/modules/creditLedgerR13.js",
+      "sha256": "d67f341834deb5270dfe3d85ad408437cef2ad50d616a6e3a42d8a1e390b2c39",
+      "bytes": 9073
+    },
+    {
+      "path": "src/modules/creditLedgerR14.js",
+      "sha256": "536f9800020bf5280eb9ed43eec25250d7afe1ee599da0513568f50d3076a242",
+      "bytes": 19072
+    },
+    {
+      "path": "src/modules/creditLedgerR15.js",
+      "sha256": "71b61802b88e646cdd5548167bea8cf17b2fe73a295aec517141e14719b4a7ce",
+      "bytes": 18919
+    },
+    {
+      "path": "src/modules/creditLedgerV2.js",
+      "sha256": "cb2616a62ad5cc5a84eaa18fde256576c25d5e23a55464057ac67ba1888499f7",
+      "bytes": 9159
+    },
+    {
+      "path": "src/modules/creditWorkspace.js",
+      "sha256": "8aff345caca9d24c9efffd62fcc6def0952fc35de4225b15750dafc52cb02e99",
+      "bytes": 4189
+    },
+    {
+      "path": "src/modules/dataGovernanceR187.js",
+      "sha256": "5b6817a0ee373fae10aec71ac6ac2df1d816e76b8e3a89610d66ece7f198699f",
+      "bytes": 3574
+    },
+    {
+      "path": "src/modules/dataRepository.js",
+      "sha256": "b6c69d581bd4a8ed69097b9f5945d6145c54289462eb2dddf928f56f5df1cc53",
+      "bytes": 2339
+    },
+    {
+      "path": "src/modules/decentralizedR191.js",
+      "sha256": "3392c3392b9642efd743d33b6694ee9b84cc75c175ed3c19d337f5c089c88279",
+      "bytes": 6500
+    },
+    {
+      "path": "src/modules/documentStoreR17.js",
+      "sha256": "6ba592babc30cdc69573f69f0fd1e0bba81e617256d753a8929492f7662a0950",
+      "bytes": 972
+    },
+    {
+      "path": "src/modules/governance.js",
+      "sha256": "acf294531a04ff8dc32dc7f8cb6f0d52559133c3e01f5dbec85cc889b5cb9336",
+      "bytes": 1137
+    },
+    {
+      "path": "src/modules/institutionalFinance.js",
+      "sha256": "7ca9354fa2e02f5962bd4ce4a2fd4e87b4f411cb64da7e9aa57296ca42fb333c",
+      "bytes": 1084
+    },
+    {
+      "path": "src/modules/loanMath.js",
+      "sha256": "27c55ae2779df61a3cdf31c7214aa757b3fad772df5165278136f683e5a2ffb1",
+      "bytes": 2290
+    },
+    {
+      "path": "src/modules/ocrR183.js",
+      "sha256": "3c5bc5f3abdef79569b258daf1f0a35701ec9956689f52229064efd55b12db57",
+      "bytes": 527
+    },
+    {
+      "path": "src/modules/offlineFieldR18.js",
+      "sha256": "7cbdb99c1602456b6798c6adee444f0bf5d9f4b8dc03d493401d184bf61ca1c2",
+      "bytes": 7108
+    },
+    {
+      "path": "src/modules/productCatalogR186.js",
+      "sha256": "6d53b53877b6b3649e4a8f3eeba48bff98aecc4bbf1a92ce19a99c66ef059d3f",
+      "bytes": 8352
+    },
+    {
+      "path": "src/modules/productRegistry.js",
+      "sha256": "606a507131393875146ca8e97b800c4fa5dda3b1cab8dd4842446770fb86fb78",
+      "bytes": 5983
+    },
+    {
+      "path": "src/modules/sfdFieldR193.js",
+      "sha256": "e47b64062bff7de70c4732648dd669b03d258b10fbab99fddea6b18d6dab1600",
+      "bytes": 7923
+    },
+    {
+      "path": "src/modules/xlsxImportR187.js",
+      "sha256": "0fd716b639b3d489dcff0f12a29d15ed80daad568f456a87fecac26a584184de",
+      "bytes": 2743
+    },
+    {
+      "path": "src/styles.css",
+      "sha256": "f0098af1644154d95f24fb6a49484c0f79b3025c9dffafc56cb863c89b46a98f",
+      "bytes": 80823
+    },
+    {
+      "path": "sw.js",
+      "sha256": "441787c8271f917d87b927884f2acde9b4039e4760d92e55054eaa3240165cc9",
+      "bytes": 1386
+    },
+    {
+      "path": "templates/CREDIPASS_CANEVAS_IMPORT_COMPLET.xlsx",
+      "sha256": "d8d4bcd44e41670461fdaed9783cb337d37595160d433c8bebaa1cc693be4762",
+      "bytes": 18773
+    },
+    {
+      "path": "tests/boot-gate-tests.mjs",
+      "sha256": "6a97870c76bf77c4d435cc7c4ceb2f5150e2d188f75de234efbcef896c9ee46d",
+      "bytes": 2785
+    },
+    {
+      "path": "tests/closure-ui-tests.mjs",
+      "sha256": "6e4de2d7b572cfec6aaecbe9f5094efcb5e059568e0df90e240627150daba534",
+      "bytes": 1186
+    },
+    {
+      "path": "tests/demo-accounts-tests.mjs",
+      "sha256": "ae421028f600344fbbfe0e64197318653bd2fe69037ad0de5ee3fc0df06ffec9",
+      "bytes": 1594
+    },
+    {
+      "path": "tests/engine-tests.mjs",
+      "sha256": "b0f57877c64564ca03f6266c61687cc4b9be7931037e297594b175de4e178fd9",
+      "bytes": 2079
+    },
+    {
+      "path": "tests/legacy/README.md",
+      "sha256": "ab61a7c78153ca447e50be8832a12de3ea371e19f8dc6ea8691a96ecb1d864f1",
+      "bytes": 569
+    },
+    {
+      "path": "tests/legacy/r10-final-ui-tests.mjs",
+      "sha256": "0b52cabb0d157f6d874b883652d75115aa510c9c8fe720571053fc1bf39cbdd3",
+      "bytes": 2100
+    },
+    {
+      "path": "tests/legacy/r16-gold-ux-tests.mjs",
+      "sha256": "5cfc70aed9b71c8e778c4ebb132dbb3c6e68f27f66de7ac27141e68f9c38ab7f",
+      "bytes": 802
+    },
+    {
+      "path": "tests/legacy/r18-2-final-hardening-tests.mjs",
+      "sha256": "80793bde9114306799c52c3fa475a69a8e84ba753620aa4f55aceeeb9c7bc5e0",
+      "bytes": 1807
+    },
+    {
+      "path": "tests/legacy/r18-3-production-green-tests.mjs",
+      "sha256": "8d4b7c95332748182ec2de9abd9f8998887945c5b7a8d0379cfa622e19154e06",
+      "bytes": 1251
+    },
+    {
+      "path": "tests/legacy/r6-final-delivery-tests.mjs",
+      "sha256": "3f34503c6dbc0370b5b42bed0f2de9cae60f89661a51e6a36893e8a7b93faf88",
+      "bytes": 1274
+    },
+    {
+      "path": "tests/legacy/r7-product-clean-tests.mjs",
+      "sha256": "3c3a083d83e1e75b995e465398716024868eb0b14a44d6bbd47d4ed6dcd4cf88",
+      "bytes": 1189
+    },
+    {
+      "path": "tests/legacy/r9-runtime-startup-tests.mjs",
+      "sha256": "6055228698f30ff65965fa655e8c31b27936d0ef9f1a9d080023470729e1fc2c",
+      "bytes": 1015
+    },
+    {
+      "path": "tests/loan-math-tests.mjs",
+      "sha256": "de16e7c83f2be7cf361d982ad789b839445d6ab55d0b776c49890c5bb238b9ae",
+      "bytes": 798
+    },
+    {
+      "path": "tests/lot-master-tests.mjs",
+      "sha256": "bbdce881073a543011b2647d81fc65d99e1b56b3bcacfda27cf55ffcd12aa1b8",
+      "bytes": 1664
+    },
+    {
+      "path": "tests/master-refactor-tests.mjs",
+      "sha256": "a42d7d66d41ab4d9e16aa7abea762f1256865c3e4058738ad309596a4c7043bd",
+      "bytes": 1317
+    },
+    {
+      "path": "tests/product-registry-tests.mjs",
+      "sha256": "2ee63d3b9211bb5b3a6b5e42b3ecd0d4d2923d1845ddff1885472f3422d7f8bd",
+      "bytes": 951
+    },
+    {
+      "path": "tests/r11-transactional-tests.mjs",
+      "sha256": "13c17cfdcacae68533889f240c5881f61f5c68ce1065eb746c68825250559528",
+      "bytes": 1329
+    },
+    {
+      "path": "tests/r12-az-tests.mjs",
+      "sha256": "701fc32fc38b0465ccf47f63a615801ab2ed54049eff80c5b9004e570860380f",
+      "bytes": 1799
+    },
+    {
+      "path": "tests/r13-gold-tests.mjs",
+      "sha256": "5ed2fc36f9480124b95bd4794b3640d28afb7e903c053e177c5d6565a9ff6000",
+      "bytes": 1455
+    },
+    {
+      "path": "tests/r14-complete-tests.mjs",
+      "sha256": "f9432a2313777b0db70bcd4c8be6876a1c8f2fa112ba0341aaad924e1ad15ba7",
+      "bytes": 2270
+    },
+    {
+      "path": "tests/r15-institutional-tests.mjs",
+      "sha256": "746028428b62e2d7fabb3b2a99e9b83c79734591869689e817de69e4ff6a1eff",
+      "bytes": 2368
+    },
+    {
+      "path": "tests/r17-data-tests.mjs",
+      "sha256": "c56efc72b8905bbc29113a13576f22170c5e6757392469cd0b54a972b95c229c",
+      "bytes": 1787
+    },
+    {
+      "path": "tests/r18-1-hardening-tests.mjs",
+      "sha256": "192d5f8d5445e79446554a31dc2a1830d92b55d80ef3c15d98f7fef2c901aada",
+      "bytes": 2110
+    },
+    {
+      "path": "tests/r18-3-ocr-engine-smoke.mjs",
+      "sha256": "e85fd1abcc903a4c17caebacf750e397d71294d3785debeb9ae2e164e196e4bc",
+      "bytes": 484
+    },
+    {
+      "path": "tests/r18-4-central-sync-tests.mjs",
+      "sha256": "84fce5b62bc5363abd4a941952e58090a385feade52729aeff4818062e7992e4",
+      "bytes": 3497
+    },
+    {
+      "path": "tests/r18-4-certification-tests.mjs",
+      "sha256": "3884da80ebe1f40c8c6fff8928463ca0e5e5b0fafb9d4e34d911b7114047629c",
+      "bytes": 716
+    },
+    {
+      "path": "tests/r18-4-ocr-api-tests.mjs",
+      "sha256": "6ff21683d6f767d1689dea3285a5c54ef04a14b7c4eb0f34743b6fae62aa8002",
+      "bytes": 1759
+    },
+    {
+      "path": "tests/r18-4-offline-auth-tests.mjs",
+      "sha256": "6df5df8ef008848c01c5df727a5f99016be431536857aa9cb59f32099bb08e10",
+      "bytes": 706
+    },
+    {
+      "path": "tests/r18-5-role-consolidation-tests.mjs",
+      "sha256": "3a235751bdf241a39ec3c234b1d21972daca280b7963ada2987f6eb002b690bd",
+      "bytes": 1279
+    },
+    {
+      "path": "tests/r18-6-products-policies-tests.mjs",
+      "sha256": "5d164e02f011dcbbb2f2f9d06595e2cee1e93cc9d29d8678b828694eb4057f00",
+      "bytes": 2661
+    },
+    {
+      "path": "tests/r18-7-data-passport-audit-tests.mjs",
+      "sha256": "7077f68efe990397832bbd3a25e15f072bbcd997e079b31859efd473d50a96d6",
+      "bytes": 1927
+    },
+    {
+      "path": "tests/r18-scoring-access-tests.mjs",
+      "sha256": "4c04ac8b662ebb8990ca14cd1325b376512901ef23ce4ac56e7eb8e04a3e778e",
+      "bytes": 1444
+    },
+    {
+      "path": "tests/r19-1-decentralized-ai-tests.mjs",
+      "sha256": "349a11daf0fda0976dd0771f266281db781e74da4829d2d1d3b9a24800fba37b",
+      "bytes": 1111
+    },
+    {
+      "path": "tests/r19-2-decentralized-sync-hardening-tests.mjs",
+      "sha256": "a88c0e35f61b59654e0b335683bdfbd1ae00fc88835d28f8eb70a15da93a0e37",
+      "bytes": 3693
+    },
+    {
+      "path": "tests/r19-3-1-ai-real-tests.mjs",
+      "sha256": "3945a1bff013895b45b5d290644c4eda6f3245ab2fc03620a2c1839093b20b3f",
+      "bytes": 1881
+    },
+    {
+      "path": "tests/r19-3-1-blocker-hardening-tests.mjs",
+      "sha256": "cd83d02c8b9f54112a66dcf0bd4dfc2a1d78e244348b99eb6ea6eec2e5e14620",
+      "bytes": 13292
+    },
+    {
+      "path": "tests/r19-3-2-postgresql-central-tests.mjs",
+      "sha256": "bf31662e12585ab28de628c75eaa98dc1502f071a67b8fac751b80abd105c593",
+      "bytes": 3128
+    },
+    {
+      "path": "tests/r19-3-2-postgresql-real-tests.mjs",
+      "sha256": "c5389780eb5a99d07996b4f7699367ab7851e766b84912de4f9578f84051b59b",
+      "bytes": 1548
+    },
+    {
+      "path": "tests/r19-3-ai-provider-tests.mjs",
+      "sha256": "2bb8aa967c03031adf352f15a9a9767a3d2d4ca300a38d40ac65cdc7a53fddbd",
+      "bytes": 2809
+    },
+    {
+      "path": "tests/r19-3-certification-tests.mjs",
+      "sha256": "2d71f272fe8e65a6a52d580a5fbdb8a953bc393d93b53ef1450c0caa754e454b",
+      "bytes": 4574
+    },
+    {
+      "path": "tests/r19-3-sfd-ai-tests.mjs",
+      "sha256": "12f1516ff4594867c8b94afdef4eb9289afb886807429da343471f5b54a32fa6",
+      "bytes": 4026
+    },
+    {
+      "path": "tests/r19-gold-certification-tests.mjs",
+      "sha256": "5ed6350abd4e02b13b775daa7ac0cc424acd1d959b6b41ba0d18782dc0f02f92",
+      "bytes": 2024
+    },
+    {
+      "path": "tests/r3-hardening-tests.mjs",
+      "sha256": "bfb8b240d3ae4f9c5323c9f02f6ab9e9b3f6c5a6e9e7ff978005bd44ed9a7943",
+      "bytes": 1533
+    },
+    {
+      "path": "tests/r4-final-clean-tests.mjs",
+      "sha256": "030e17e2d7e7f60140b6c26f7b4b7266e7ea1f48fa75a1f8a500c3634bbf5d6f",
+      "bytes": 4631
+    },
+    {
+      "path": "tests/r5-release-candidate-tests.mjs",
+      "sha256": "18a03e34ef53a6b2bd8aec9078e781d4d7a06df484662c59262707073ac15b44",
+      "bytes": 2093
+    }
+  ]
+}

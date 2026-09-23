@@ -1,0 +1,3 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const auth=fs.readFileSync('src/modules/authProductionR184.js','utf8'),server=fs.readFileSync('scripts/serve.mjs','utf8'),storage=fs.readFileSync('scripts/lib/storage.mjs','utf8'),schema=fs.readFileSync('db/postgresql/001_init.sql','utf8'),off=fs.readFileSync('src/modules/offlineFieldR18.js','utf8');
+assert.match(auth,/PBKDF2/);assert.match(auth,/verifyOfflineLogin/);assert.match(schema,/institution_state/);assert.match(server,/visibleState/);assert.match(server,/Tesseract 5 TSV/);assert.match(schema,/locked_until/);assert.match(storage,/PostgreSQL|POSTGRESQL/);assert.match(off,/sync\/pull/);console.log('R18.4 CERTIFICATION CONTRACT: PASS');

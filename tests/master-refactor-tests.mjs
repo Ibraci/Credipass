@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {createDraft,validateDraft,contradictionReview,nextBestAction,parseCsv,previewImport,documentStatus} from '../src/modules/creditWorkspace.js';
+import {requiresSecondApproval,separationOfDuties} from '../src/modules/governance.js';
+import {normalizeFinancePolicy,ratioInterpretation} from '../src/modules/institutionalFinance.js';
+const d=createDraft({client:{name:'Test',city:'Bamako'},request:{reference:'D-1',amount:300000,durationMonths:12}});assert.equal(validateDraft(d).valid,true);
+assert.equal(contradictionReview({declaredIncome:100,reconstructedIncome:50}).length,1);
+assert.match(nextBestAction({draft:d,documents:[{name:'CNI'}]}),/Vérifier/);assert.equal(documentStatus({verified:true}),'Vérifié');
+const rows=parseCsv('reference;clientName;city;requestedAmount;durationMonths\nD1;Awa;Bamako;100000;6');assert.equal(previewImport(rows)[0].valid,true);
+assert.equal(requiresSecondApproval({amount:1200000,role:'analyst'}),true);assert.equal(separationOfDuties({creatorId:'A',decisionMakerId:'A'}).valid,false);
+assert.equal(normalizeFinancePolicy({method:'x'}).method,'declining');assert.equal(ratioInterpretation({income:300000,expenses:100000,debtPayment:20000,newPayment:50000}).debtRatioLabel,'Maîtrisé');
+console.log('MASTER_REFACTOR_TESTS_PASS');

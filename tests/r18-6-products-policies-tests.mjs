@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {DEFAULT_PRODUCTS,ensureCatalog,activeProducts,validateProductRequest,freezePolicySnapshot,upsertProduct,publishProductPolicy} from '../src/modules/productCatalogR186.js';
+import {ROLES} from '../src/modules/accessControlR18.js';
+const db={members:[],applications:[]};ensureCatalog(db);
+assert.ok(DEFAULT_PRODUCTS.length>=9,'référentiel doit couvrir les grandes familles');
+assert.ok(activeProducts(db).some(p=>p.code==='SALARIE'));
+assert.ok(activeProducts(db).some(p=>p.code==='AGRICOLE'));
+assert.ok(activeProducts(db).some(p=>p.code==='GROUPEMENT'));
+assert.equal(ROLES.ADMIN_SYSTEME.permissions.includes('PRODUCT_ADMIN'),true);
+let v=validateProductRequest(db,{product:'Crédit agricole / campagne',amount:1000000,durationMonths:12,periodicity:'Saisonnière',memberType:'Groupe / Coopérative'});assert.equal(v.ok,true);
+v=validateProductRequest(db,{product:'Crédit salarié',amount:9000000,durationMonths:12,periodicity:'Mensuelle',memberType:'Personne physique'});assert.equal(v.ok,false);assert.match(v.errors.join(' '),/Montant hors limites/);
+const app={product:'Crédit PME'};const snap=freezePolicySnapshot(db,app);assert.equal(app.policyVersion,'PME-1.0');assert.equal(snap.code,'PME');
+const old=JSON.stringify(snap);db.creditProducts.find(p=>p.code==='PME').maxAmount=30000000;assert.equal(JSON.stringify(app.productPolicySnapshot),old,'le dossier doit conserver son snapshot historique');
+upsertProduct(db,{code:'TEST',name:'Crédit test',family:'Test',minAmount:1000,maxAmount:5000,minMonths:1,maxMonths:3,periodicities:['Mensuelle'],profiles:['Personne physique'],status:'BROUILLON',requiredDocs:[],guarantees:[],workflow:[],rate:{value:10},policyVersion:'TEST-0.0'});assert.equal(db.creditProducts.some(p=>p.code==='TEST'),true);const pub=publishProductPolicy(db,'TEST','admin.systeme');assert.equal(pub.status,'ACTIF');assert.ok(db.productPolicyVersions.some(x=>x.productCode==='TEST'&&x.version===pub.policyVersion));
+console.log(`R18.6 PRODUCTS & POLICIES: PASS — ${activeProducts(db).length} produits actifs, politiques versionnées et snapshots immuables`);
+const L=await import('../src/modules/creditLedgerR15.js');const live=L.seed();const eligible=live.members.find(m=>m.type==='Personne physique');const created=L.addApplication(live,{memberId:eligible.id,product:'Crédit salarié',purpose:'Test R18.6',requestedAmount:500000,durationMonths:12,periodicity:'Mensuelle'},'Test');assert.equal(created.policyVersion,'SAL-1.0');assert.equal(created.productPolicySnapshot.code,'SALARIE');
+console.log('R18.6 APPLICATION INTEGRATION: PASS — validation + snapshot sur dossier réel');

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as L from '../src/modules/creditLedgerR15.js';
+import {ROLES} from '../src/modules/accessControlR18.js';
+const db=L.seed();
+assert.ok(db.members.length>=25,'25+ membres attendus');assert.ok(db.applications.length>=25,'25+ dossiers attendus');
+const cases=new Set(db.applications.map(x=>x.demoCase).filter(Boolean));for(const c of ['AGRICULTURE_CAMPAGNE','ELEVAGE_TERRAIN','COOPERATIVE_MULTI_MEMBRES','HISTORIQUE_EXCELLENT','CONTRADICTION_TERRAIN'])assert.ok(cases.has(c),c);
+const app=db.applications[0];const bic=L.recordBic(db,{applicationId:app.id,source:'BIC test',commitments:125000,incidents:'Aucun'},'Analyste');assert.equal(L.bicFor(db,app.id)[0].id,bic.id);
+const d=L.disputeData(db,{applicationId:app.id,field:'revenu',currentValue:'100000',requestedValue:'120000',reason:'Justificatif'},'Analyste');L.resolveDispute(db,d.id,{decision:'ACCEPTÉE'},'Conformité');assert.equal(db.dataCorrections.length,1);assert.ok(L.auditFor(db,app.id).some(x=>x.action==='CONTESTATION_ACCEPTÉE'));
+const imp=L.registerImport(db,{fileName:'test.xlsx',memberRows:2,applicationRows:1,errors:['ligne test']},'Admin');assert.equal(imp.status,'AVEC_ANOMALIES');
+assert.ok(ROLES.ADMIN_SYSTEME.permissions.includes('DATA_IMPORT'));assert.ok(ROLES.ANALYSTE_RESPONSABLE_CREDIT.permissions.includes('BIC_EDIT'));
+const ui=fs.readFileSync(new URL('../src/az-app.js',import.meta.url),'utf8'),xlsx=fs.readFileSync(new URL('../src/modules/xlsxImportR187.js',import.meta.url),'utf8');
+for(const t of ['Importer un fichier Excel','Télécharger le canevas','Résultat BIC','Signaler / corriger une donnée','Traçabilité complète du dossier'])assert.ok(ui.includes(t),t);assert.ok(xlsx.includes('parseCredipassWorkbook'));
+console.log(`R18.7 DATA/PASSEPORT/AUDIT: PASS — ${db.members.length} membres, ${db.applications.length} dossiers, ${cases.size} cas pratiques`);
