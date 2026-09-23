@@ -85,3 +85,9 @@ CREATE TABLE IF NOT EXISTS ai_audit (
   question TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL
 );
+
+-- Profil modifiable par l'utilisateur, conservé à part : les comptes de démonstration
+-- réécrivent name/role/agency à chaque démarrage du serveur.
+ALTER TABLE users ADD COLUMN IF NOT EXISTS display_name TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS email TEXT;

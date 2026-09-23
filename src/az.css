@@ -119,3 +119,9 @@ html{scroll-behavior:smooth}body{min-width:320px}button,input,select,textarea{mi
 .member-check{display:flex;align-items:center;gap:8px;font-weight:600}
 .member-check input{width:auto}
 @media (max-width:720px){.member-type-choice{grid-template-columns:1fr}.member-form-grid{grid-template-columns:1fr}}
+
+/* Profil cliquable dans l'en-tête */
+.user-button{background:transparent;border:1px solid transparent;border-radius:12px;padding:4px 10px;color:inherit;font:inherit;cursor:pointer;text-align:left}
+.user-button:hover,.user-button:focus-visible{border-color:#d7e5df;background:rgba(255,255,255,.12)}
+.user-caret{font-size:.8rem;opacity:.7}
+.profile-readonly{margin-top:16px}
