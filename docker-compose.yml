@@ -1,0 +1,45 @@
+# CREDIPASS — application complète : serveur central + PostgreSQL.
+# Préparation : cp .env.docker.example .env  puis renseigner POSTGRES_PASSWORD.
+# Lancement   : docker compose up -d --build   → http://127.0.0.1:8092
+name: credipass
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-credipass}
+      POSTGRES_USER: ${POSTGRES_USER:-credipass}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Renseignez POSTGRES_PASSWORD dans .env}
+    volumes:
+      - credipass-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    image: credipass:19.3.2
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      CREDIPASS_DATABASE_URL: postgresql://${POSTGRES_USER:-credipass}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-credipass}
+      CREDIPASS_PG_SSL: disable
+      CREDIPASS_PG_POOL: ${CREDIPASS_PG_POOL:-10}
+      # Remet les mots de passe de démonstration à chaque démarrage (hackathon uniquement).
+      CREDIPASS_RESET_DEMO_PASSWORDS: ${CREDIPASS_RESET_DEMO_PASSWORDS:-1}
+      # IA connectée : facultatif, l'assistant local reste disponible sans fournisseur.
+      CREDIPASS_AI_BASE_URL: ${CREDIPASS_AI_BASE_URL:-}
+      CREDIPASS_AI_MODEL: ${CREDIPASS_AI_MODEL:-}
+      CREDIPASS_AI_API_KEY: ${CREDIPASS_AI_API_KEY:-}
+      CREDIPASS_AI_PROVIDER: ${CREDIPASS_AI_PROVIDER:-}
+    ports:
+      # 127.0.0.1 : accessible depuis ce PC uniquement. Mettre 0.0.0.0 pour une démo en réseau local.
+      - "${CREDIPASS_BIND:-127.0.0.1}:${CREDIPASS_PORT:-8092}:8092"
+
+volumes:
+  credipass-db:

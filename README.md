@@ -8,9 +8,34 @@ CREDIPASS est une application web installable (PWA) qui aide une institution de 
 
 Projet présenté au **Hackathon National d'Innovation CIF — édition Mali (Track B)**. Toutes les données de démonstration sont **synthétiques** : aucune donnée personnelle réelle n'est utilisée.
 
-## Démarrage rapide
+## Démarrage rapide avec Docker (recommandé)
 
-Prérequis : **Node.js 20+** et **PostgreSQL** (local ou via Docker).
+Prérequis : **Docker** (Docker Desktop, ou Podman avec `docker compose`). Rien d'autre à installer : l'image contient Node.js, l'OCR (Tesseract français/anglais, Poppler) et le projet ; PostgreSQL tourne dans un second conteneur.
+
+```bash
+cp .env.docker.example .env
+# Renseigner POSTGRES_PASSWORD dans .env (par exemple : openssl rand -hex 24)
+docker compose up -d --build
+```
+
+Ouvrir **http://127.0.0.1:8092** et se connecter, par exemple avec `agent.credit` / `Agent@2026`.
+
+| Action | Commande |
+|---|---|
+| Voir l'état | `docker compose ps` |
+| Voir les journaux | `docker compose logs -f app` |
+| Après une modification du code | `docker compose up -d --build --force-recreate app` |
+| Arrêter | `docker compose down` (les données sont conservées) |
+| Tout effacer, base comprise | `docker compose down -v` |
+| Démo en réseau local | `CREDIPASS_BIND=0.0.0.0` dans `.env`, puis `docker compose up -d` |
+
+Avec Podman, activer d'abord le socket : `systemctl --user start podman.socket` puis `export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock`.
+
+## Démarrage sans Docker
+
+Prérequis : **Node.js 20+** et **PostgreSQL**.
+
+Sous Windows :
 
 ```text
 1. Copier .env.example vers .env.local et renseigner CREDIPASS_DATABASE_URL
@@ -20,7 +45,7 @@ Prérequis : **Node.js 20+** et **PostgreSQL** (local ou via Docker).
 5. windows\LANCER_CREDIPASS.bat             → http://127.0.0.1:8092
 ```
 
-Sous Linux, avec Podman (sans droits administrateur) :
+Sous Linux, avec Podman pour PostgreSQL seulement :
 
 ```bash
 # .env.postgres.local : POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD
