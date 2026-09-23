@@ -125,3 +125,9 @@ html{scroll-behavior:smooth}body{min-width:320px}button,input,select,textarea{mi
 .user-button:hover,.user-button:focus-visible{border-color:#d7e5df;background:rgba(255,255,255,.12)}
 .user-caret{font-size:.8rem;opacity:.7}
 .profile-readonly{margin-top:16px}
+
+/* Détail du score SFD */
+.bad{color:#a8322d;font-weight:700}
+.panel details{border-top:1px solid #e3ebe7;padding:6px 0}
+.panel details summary{cursor:pointer;padding:4px 0}
+.panel details .row{padding-left:12px}
