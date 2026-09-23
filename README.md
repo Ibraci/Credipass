@@ -20,7 +20,18 @@ Prérequis : **Node.js 20+** et **PostgreSQL** (local ou via Docker).
 5. windows\LANCER_CREDIPASS.bat             → http://127.0.0.1:8092
 ```
 
-Hors Windows : `npm run serve`.
+Sous Linux, avec Podman (sans droits administrateur) :
+
+```bash
+# .env.postgres.local : POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD
+# .env.local : CREDIPASS_DATABASE_URL=postgresql://credipass:<mot de passe>@127.0.0.1:5433/credipass
+podman run -d --name credipass-postgresql --restart unless-stopped \
+  --env-file .env.postgres.local -p 127.0.0.1:5433:5432 \
+  -v credipass_pgdata:/var/lib/postgresql/data docker.io/library/postgres:17-alpine
+node scripts/check-postgres.mjs          # vérifie la connexion et crée le schéma
+node scripts/reset-demo-accounts.mjs     # crée les 10 comptes de démonstration
+node scripts/boot.mjs 8092               # → http://127.0.0.1:8092
+```
 
 Les identifiants de démonstration (un compte par rôle) sont dans [docs/COMPTES_DEMONSTRATION.md](docs/COMPTES_DEMONSTRATION.md).
 
