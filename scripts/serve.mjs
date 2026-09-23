@@ -44,7 +44,7 @@ async function auth(req){
   const token=cookies(req).credipass_session;
   if(!token)return null;
   const s=await db.getSessionUser(token,Date.now());
-  return s?enrichUser({login:s.login,role:s.role,name:s.name,agency:s.agency,scopeMode:s.scope_mode}):null;
+  return s?enrichUser({login:s.login,role:s.role,name:s.display_name||s.name,agency:s.agency,scopeMode:s.scope_mode,phone:s.phone||'',email:s.email||''}):null;
 }
 async function requireAuth(req,res){const u=await auth(req);if(!u)json(res,401,{error:'Session requise'});return u}
 
@@ -91,6 +91,15 @@ const server=http.createServer(async(req,res)=>{try{
     return json(res,200,{user:enrichUser({login:u.login,role:u.role,name:u.name,agency:u.agency,scopeMode:u.scope_mode})},`credipass_session=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`);
   }
   if(path==='/api/auth/me'){const u=await requireAuth(req,res);if(!u)return;return json(res,200,{user:u})}
+  if(path==='/api/auth/profile'&&req.method==='POST'){
+    const u=await requireAuth(req,res);if(!u)return;
+    const b=await body(req),displayName=String(b.name||'').trim(),phone=String(b.phone||'').trim(),email=String(b.email||'').trim();
+    if(displayName.length<2||displayName.length>80)return json(res,400,{error:'Le nom affiché doit contenir entre 2 et 80 caractères.'});
+    if(phone.length>30||!/^[0-9+ ().-]*$/.test(phone))return json(res,400,{error:'Numéro de téléphone invalide.'});
+    if(email&&(email.length>120||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))return json(res,400,{error:'Adresse e-mail invalide.'});
+    await db.updateUserProfile(u.login,{displayName,phone,email});
+    return json(res,200,{ok:true,user:await auth(req)});
+  }
   if(path==='/api/auth/change-password'&&req.method==='POST'){
     const u=await requireAuth(req,res);if(!u)return;
     const b=await body(req),currentPassword=String(b.currentPassword||''),newPassword=String(b.newPassword||'');

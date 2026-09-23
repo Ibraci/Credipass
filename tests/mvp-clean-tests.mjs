@@ -6,7 +6,7 @@ const root=new URL('../',import.meta.url);
 const app=fs.readFileSync(new URL('../src/az-app.js',import.meta.url),'utf8');
 const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
 
-assert.match(app,/apiLogin,apiLogout,apiMe,verifyOfflineLogin/,'apiMe doit être importé');
+assert.match(app,/import \{[^}]*\bapiMe\b[^}]*\} from '\.\/modules\/authProductionR184\.js'/,'apiMe doit être importé');
 assert.doesNotMatch(app,/const f=d\.productForm/,'Le formulaire salarié ne doit pas lire d avant initialisation');
 assert.doesNotMatch(app,/if\(name==='editPme(?:Business|Budget|Balance)'\)[\s\S]{0,220}const b=d\./,'Les actions PME ne doivent pas lire d avant initialisation');
 assert.match(app,/\$\('#copilotFab'\)\?\.addEventListener\('click'/,'La bulle Copilot doit avoir un gestionnaire direct');
