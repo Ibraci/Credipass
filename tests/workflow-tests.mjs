@@ -81,4 +81,17 @@ check('comité non bloqué, mais la décision garde la trace des étapes manquan
   assert.match(v.workflowWarning, /agent/);
 });
 
+check('au-delà de 5 000 000 FCFA, l’étape finale est la Direction générale', () => {
+  const x = L.load();
+  const big = x.applications.find(a => a.requestedAmount > 5000000) || x.applications.find(a => a.id === 'DOS-0005');
+  big.requestedAmount = 6000000;
+  const w = L.workflowState(x, big.id);
+  assert.deepEqual(w.steps, ['AGENT_CREDIT', 'ANALYSTE_RESPONSABLE_CREDIT', 'DIRECTION']);
+  assert.equal(w.finalStep, 'DIRECTION');
+  assert.throws(() => L.recordDecision(x, { applicationId: big.id, decision: 'REFUSÉ', reason: 'x' }, 'Comité', { role: 'COMITE_CREDIT' }), /Direction générale/);
+  const v = L.recordDecision(x, { applicationId: big.id, decision: 'REFUSÉ', reason: 'Hors capacité' }, 'Direction', { role: 'DIRECTION' });
+  assert.equal(v.authority, 'Direction générale');
+  assert.equal(L.workflowState(x, big.id).stepStates.at(-1).done, true);
+});
+
 console.log(`WORKFLOW: ${passed} PASS`);

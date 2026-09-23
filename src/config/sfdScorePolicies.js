@@ -20,6 +20,8 @@ export const SFD_SCORE_CURVES = Object.freeze({
   activityAgeMonths: [[0, 10], [12, 50], [36, 85], [60, 100]],
   seniorityMonths: [[0, 20], [12, 50], [36, 80], [60, 100]],
   addressYears: [[0, 20], [1, 50], [3, 80], [5, 100]],
+  // Flux de trésorerie : écart-type / moyenne des encaissements mensuels (activité saisonnière = plus forte volatilité).
+  inflowVolatility: [[0, 100], [15, 85], [30, 60], [50, 30], [80, 0]],
   // Formulaire PME : total des garanties supérieur au montant du prêt autorisé.
   guaranteeCoverage: [[0, 0], [0.5, 40], [1, 80], [1.5, 100]],
   // Fiche d'analyse : ratio de solvabilité = crédit / fonds propres, norme ≤ 50 %.
