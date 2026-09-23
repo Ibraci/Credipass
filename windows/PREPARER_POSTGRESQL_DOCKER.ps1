@@ -1,13 +1,13 @@
 $ErrorActionPreference='Stop'
-$Root=Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-Set-Location $Root
+$ProjectRoot = Split-Path -Parent $PSScriptRoot
+Set-Location -LiteralPath $ProjectRoot
 
 if(-not (Get-Command docker -ErrorAction SilentlyContinue)){throw 'Docker Desktop est requis pour cette méthode. Sinon, installez PostgreSQL nativement et configurez .env.local.'}
 if(-not (Get-Command node -ErrorAction SilentlyContinue)){throw 'Node.js 20+ est requis.'}
-if(-not (Get-Command npm -ErrorAction SilentlyContinue)){throw 'npm est requis.'}
+if(-not (Get-Command npm.cmd -ErrorAction SilentlyContinue)){throw 'npm est requis.'}
 
-$pgEnv=Join-Path $Root '.env.postgres.local'
-$appEnv=Join-Path $Root '.env.local'
+$pgEnv=Join-Path $ProjectRoot '.env.postgres.local'
+$appEnv=Join-Path $ProjectRoot '.env.local'
 if(-not (Test-Path $pgEnv)){
   $chars=('abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789').ToCharArray()
   $password=-join (1..32 | ForEach-Object { $chars | Get-Random })
@@ -32,7 +32,7 @@ CREDIPASS_HOST=127.0.0.1
 }
 
 Write-Host '[INFO] Installation du pilote PostgreSQL Node.js...' -ForegroundColor Cyan
-& npm ci --omit=dev
+& npm.cmd ci --omit=dev
 if($LASTEXITCODE -ne 0){throw 'npm install a échoué.'}
 
 Write-Host '[INFO] Démarrage PostgreSQL...' -ForegroundColor Cyan
@@ -41,9 +41,9 @@ if($LASTEXITCODE -ne 0){throw 'docker compose a échoué.'}
 
 for($i=0;$i -lt 30;$i++){
   try{
-    & node scripts/check-postgres.mjs
-    if($LASTEXITCODE -eq 0){Write-Host '[OK] PostgreSQL central CREDIPASS est prêt.' -ForegroundColor Green; Write-Host '[INFO] Création/réinitialisation des comptes de démonstration...' -ForegroundColor Cyan; & node scripts/reset-demo-accounts.mjs; if($LASTEXITCODE -ne 0){throw 'Préparation des comptes de démonstration échouée.'}; Write-Host '[OK] 10 comptes de démonstration prêts.' -ForegroundColor Green; exit 0}
+    & node (Join-Path $ProjectRoot 'scripts\check-postgres.mjs')
+    if($LASTEXITCODE -eq 0){Write-Host '[OK] PostgreSQL central CREDIPASS est prêt.' -ForegroundColor Green; Write-Host '[INFO] Création/réinitialisation des comptes de démonstration...' -ForegroundColor Cyan; & node (Join-Path $ProjectRoot 'scripts\reset-demo-accounts.mjs'); if($LASTEXITCODE -ne 0){throw 'Préparation des comptes de démonstration échouée.'}; Write-Host '[OK] 10 comptes de démonstration prêts.' -ForegroundColor Green; exit 0}
   }catch{}
   Start-Sleep -Seconds 2
 }
-throw 'PostgreSQL n’est pas devenu disponible. Vérifiez Docker Desktop et les journaux du conteneur.'
+throw 'PostgreSQL n''est pas devenu disponible. Vérifiez Docker Desktop et les journaux du conteneur.'

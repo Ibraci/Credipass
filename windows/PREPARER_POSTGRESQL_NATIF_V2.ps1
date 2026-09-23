@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
-Set-Location (Split-Path -Parent $PSScriptRoot)
+$ProjectRoot = Split-Path -Parent $PSScriptRoot
+Set-Location -LiteralPath $ProjectRoot
 
 # Console: garder des messages ASCII pour eviter les problemes d'encodage Windows.
 try {
@@ -16,10 +17,9 @@ function Find-Psql {
     $cmd = Get-Command psql.exe -ErrorAction SilentlyContinue
     if ($cmd) { return $cmd.Source }
 
-    $roots = @(
-        'C:\Program Files\PostgreSQL',
-        'C:\Program Files (x86)\PostgreSQL'
-    )
+    $roots = @($env:ProgramW6432, $env:ProgramFiles, ${env:ProgramFiles(x86)}) |
+        Where-Object { $_ } | Select-Object -Unique |
+        ForEach-Object { Join-Path $_ 'PostgreSQL' }
     foreach ($root in $roots) {
         if (Test-Path $root) {
             $candidate = Get-ChildItem $root -Directory -ErrorAction SilentlyContinue |
@@ -127,20 +127,20 @@ Set-Content -Path '.env.local' -Value $envText -Encoding UTF8
 Write-Host '[OK] .env.local genere.' -ForegroundColor Green
 
 Write-Host '[INFO] Installation des dependances Node.js...'
-& npm ci --omit=dev
+& npm.cmd ci --omit=dev
 if ($LASTEXITCODE -ne 0) {
     Write-Host '[INFO] npm ci indisponible; tentative npm install --omit=dev...'
-    & npm install --omit=dev
+    & npm.cmd install --omit=dev
     if ($LASTEXITCODE -ne 0) { throw 'Installation npm impossible.' }
 }
 
 Write-Host '[INFO] Verification PostgreSQL via CREDIPASS...'
-& npm run db:check
+& npm.cmd run db:check
 if ($LASTEXITCODE -ne 0) { throw 'Le controle CREDIPASS PostgreSQL a echoue.' }
 
 if (Test-Path 'scripts\reset-demo-accounts.mjs') {
     Write-Host '[INFO] Preparation des comptes de demonstration...'
-    & node scripts\reset-demo-accounts.mjs
+    & node (Join-Path $ProjectRoot 'scripts\reset-demo-accounts.mjs')
     if ($LASTEXITCODE -ne 0) { throw 'Creation des comptes de demonstration impossible.' }
     Write-Host '[OK] 10 comptes de demonstration prets.' -ForegroundColor Green
 } else {
