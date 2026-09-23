@@ -19,5 +19,5 @@ check('fixtures explicitly synthetic',!fixtures.includes('SFD Démo') && !fixtur
 check('professional guarantee chain',app.includes('Valeur expertisée') && app.includes('Valeur retenue') && app.includes('Couverture'));
 check('character trust present',app.includes('Caractère & confiance') || app.includes('Caractère et confiance'));
 check('human decision retained',app.includes('L’humain décide'));
-check('eight-lot audit retained',exists('docs/archives/AUDIT_R4_FINAL_CLEAN.md'));
+check('eight-lot audit retained',exists('AUDIT_R4_FINAL_CLEAN.md'));
 console.log(`R5_RELEASE_CANDIDATE_PASS ${checks.length}/${checks.length}`);

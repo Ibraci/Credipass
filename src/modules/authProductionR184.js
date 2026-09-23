@@ -13,5 +13,3 @@ export async function apiChangePassword(currentPassword,newPassword){const r=awa
 export async function apiLogout(){try{await fetch('/api/auth/logout',{method:'POST',credentials:'include'})}catch{}localStorage.removeItem(CACHE)}
 export async function apiMe(){try{const r=await fetch('/api/auth/me',{credentials:'include'});if(!r.ok)return null;const {user}=await r.json();localStorage.setItem(CACHE,JSON.stringify(user));return user}catch{return null}}
 export function cachedOfflineUser(login){try{const all=readOffline();return all[login]?.user||null}catch{return null}}
-
-export async function apiUpdateProfile(profile){let r;try{r=await fetch('/api/auth/profile',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify(profile)})}catch{throw Error('Connexion au serveur requise pour modifier le profil.')}const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.error||'Modification du profil refusée');return j.user||null}

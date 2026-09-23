@@ -8,7 +8,7 @@ ok('R10 app cache buster',html.includes('app.js?r=r10-final-ui'));
 ok('login visible by default',html.includes('<section id="loginScreen" class="cp-login-screen">'));
 ok('boot watchdog retained',html.includes('__CREDIPASS_BOOT_OK__') && html.includes('unhandledrejection'));
 ok('runtime network first retained',sw.includes("cache: 'no-store'"));
-ok('launcher retained',fs.existsSync('windows/LANCER_CREDIPASS.bat'));
+ok('launcher retained',fs.existsSync('LANCER_CREDIPASS.bat'));
 ok('main nav clients',html.includes('data-view="productClients"'));
 ok('main nav portfolio',html.includes('data-view="productPortfolio"'));
 ok('main nav reports',html.includes('<span>Rapports</span>'));

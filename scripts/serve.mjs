@@ -44,7 +44,7 @@ async function auth(req){
   const token=cookies(req).credipass_session;
   if(!token)return null;
   const s=await db.getSessionUser(token,Date.now());
-  return s?enrichUser({login:s.login,role:s.role,name:s.display_name||s.name,agency:s.agency,scopeMode:s.scope_mode,phone:s.phone||'',email:s.email||''}):null;
+  return s?enrichUser({login:s.login,role:s.role,name:s.name,agency:s.agency,scopeMode:s.scope_mode}):null;
 }
 async function requireAuth(req,res){const u=await auth(req);if(!u)json(res,401,{error:'Session requise'});return u}
 
@@ -56,7 +56,7 @@ async function callAiProvider(question,context){const ctl=new AbortController(),
 
 function safePathFromUrl(urlPath){const decoded=decodeURIComponent((urlPath||'/').split('?')[0]),n=normalize(decoded).replace(/^([/\\])+/,'');const c=resolve(join(root,n));return c.startsWith(root)?c:null}
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/x-icon'};
-const APP_COLLECTIONS=['documents','visits','financials','guarantees','decisions','disbursements','payments','restructures','checklists','incomeItems','expenseItems','debts','trustObservations','schedules','scheduleVersions','followups','alertsLog','recommendations','productForms','policyChecks','institutionalRisk','institutionalScorecards','businessAnalyses','personalBudgets','personalBalanceSheets','companyBalanceSheets','cashflows','workflowActions','consents','bicChecks','dataDisputes','dataCorrections','audit'];
+const APP_COLLECTIONS=['documents','visits','financials','guarantees','decisions','disbursements','payments','restructures','checklists','incomeItems','expenseItems','debts','trustObservations','schedules','scheduleVersions','followups','alertsLog','recommendations','productForms','policyChecks','institutionalRisk','institutionalScorecards','businessAnalyses','personalBudgets','personalBalanceSheets','workflowActions','consents','bicChecks','dataDisputes','dataCorrections','audit'];
 const CONFIG_COLLECTIONS=['creditProducts','productPolicyVersions','sfdFieldProfiles','importJobs'];
 function idOf(x,k){if(!x)return'';if(x.id)return String(x.id);if(k==='productPolicyVersions')return `${x.productCode||''}:${x.version||''}`;if(k==='creditProducts')return String(x.code||'');return''}
 function byKey(list,k){return new Map((Array.isArray(list)?list:[]).map(x=>[idOf(x,k),x]).filter(([id])=>id))}
@@ -91,15 +91,6 @@ const server=http.createServer(async(req,res)=>{try{
     return json(res,200,{user:enrichUser({login:u.login,role:u.role,name:u.name,agency:u.agency,scopeMode:u.scope_mode})},`credipass_session=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`);
   }
   if(path==='/api/auth/me'){const u=await requireAuth(req,res);if(!u)return;return json(res,200,{user:u})}
-  if(path==='/api/auth/profile'&&req.method==='POST'){
-    const u=await requireAuth(req,res);if(!u)return;
-    const b=await body(req),displayName=String(b.name||'').trim(),phone=String(b.phone||'').trim(),email=String(b.email||'').trim();
-    if(displayName.length<2||displayName.length>80)return json(res,400,{error:'Le nom affiché doit contenir entre 2 et 80 caractères.'});
-    if(phone.length>30||!/^[0-9+ ().-]*$/.test(phone))return json(res,400,{error:'Numéro de téléphone invalide.'});
-    if(email&&(email.length>120||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))return json(res,400,{error:'Adresse e-mail invalide.'});
-    await db.updateUserProfile(u.login,{displayName,phone,email});
-    return json(res,200,{ok:true,user:await auth(req)});
-  }
   if(path==='/api/auth/change-password'&&req.method==='POST'){
     const u=await requireAuth(req,res);if(!u)return;
     const b=await body(req),currentPassword=String(b.currentPassword||''),newPassword=String(b.newPassword||'');
