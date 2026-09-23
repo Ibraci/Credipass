@@ -1,0 +1,19 @@
+.git
+node_modules
+npm-debug.log
+*.log
+
+# Secrets et configurations locales : jamais dans l'image.
+.env
+.env.*
+!.env.example
+
+# Hors exécution du serveur.
+docs
+windows
+tests
+Dockerfile
+.dockerignore
+docker-compose*.yml
+RELEASE_MANIFEST*.json
+decision

@@ -4,11 +4,18 @@ import {readState,writeState} from './dataRepository.js';
 import {ensureR187,recordBic,bicFor,disputeData,resolveDispute,auditFor,registerImport,passportSummary} from './dataGovernanceR187.js';
 import {ensureSfdFieldConfig,fieldSummary} from './sfdFieldR193.js';
 import {sfdScore} from './sfdScoreInput.js';
+// Circuit unique, repris des formulaires : avis de l'agent → avis de l'analyste → décision du comité.
+export const WORKFLOW_STEPS=['AGENT_CREDIT','ANALYSTE_RESPONSABLE_CREDIT','COMITE_CREDIT'];
+// Noms d'étapes des versions précédentes, conservés pour lire les validations déjà enregistrées.
+const STEP_ALIASES={SUPERVISEUR:'ANALYSTE_RESPONSABLE_CREDIT',CHEF_AGENCE_ANALYSTE:'ANALYSTE_RESPONSABLE_CREDIT'};
+const stepOf=step=>STEP_ALIASES[step]||step;
+export const RISK_OPINIONS=['Risque acceptable','Risque élevé'];
+export const STEP_LABELS={AGENT_CREDIT:'Avis de l’agent de crédit',ANALYSTE_RESPONSABLE_CREDIT:'Avis de l’analyste',COMITE_CREDIT:'Décision du comité',TERMINÉ:'Terminé'};
 export * from './creditLedgerR14.js';
 const iso=()=>new Date().toISOString(), num=v=>Number(v)||0, next=(p,a)=>`${p}-${String(a.length+1).padStart(4,'0')}`;
 export const PRODUCT_DEFINITIONS={
- 'Crédit salarié':{code:'SALARIE',workflow:['AGENT_CREDIT','SUPERVISEUR','COMITE_CREDIT'],sections:['IDENTIFICATION','EMPLOI_DOMICILIATION','ANTECEDENTS','PRET','OBJET','CAPACITE','DOCUMENTS','POLITIQUE','RECOMMANDATION_AGENT','SUPERVISEUR','COMITE'],requiredDocs:['Pièce d’identité','Demande signée','Justificatif de salaire','Justificatif employeur / contrat'],policy:['QUOTITE_CESSIBLE','DUREE_PRODUIT','DOCUMENTS_REQUIS']},
- 'Crédit PME':{code:'PME',workflow:['AGENT_CREDIT','CHEF_AGENCE_ANALYSTE','COMITE_CREDIT'],sections:['IDENTIFICATION','ENTREPRISE','PRET','EPARGNE_CREDIT','ACTIVITE_MARCHE','GARANTIES','BUDGET_PERSONNEL','BILAN_PERSONNEL','DOCUMENTS','POLITIQUE','RISQUE_INSTITUTIONNEL','INCLUSCORE','RECOMMANDATION_AGENT','CHEF_AGENCE_ANALYSTE','COMITE'],requiredDocs:['Pièce d’identité','Demande signée','Justificatif activité / entreprise','Documents légaux applicables','Justificatifs de revenus / activité','Justificatifs de garanties'],policy:['PLAFONDS','ENCOURS_AUTORISE','FRAIS_ASSURANCE','DOCUMENTS_LEGAUX_GARANTIES','VISAS']}
+ 'Crédit salarié':{code:'SALARIE',workflow:WORKFLOW_STEPS,sections:['IDENTIFICATION','EMPLOI_DOMICILIATION','ANTECEDENTS','PRET','OBJET','CAPACITE','DOCUMENTS','POLITIQUE','RECOMMANDATION_AGENT','AVIS_ANALYSTE','COMITE'],requiredDocs:['Pièce d’identité','Demande signée','Justificatif de salaire','Justificatif employeur / contrat'],policy:['QUOTITE_CESSIBLE','DUREE_PRODUIT','DOCUMENTS_REQUIS']},
+ 'Crédit PME':{code:'PME',workflow:WORKFLOW_STEPS,sections:['IDENTIFICATION','ENTREPRISE','PRET','EPARGNE_CREDIT','ACTIVITE_MARCHE','GARANTIES','BUDGET_PERSONNEL','BILAN_PERSONNEL','DOCUMENTS','POLITIQUE','RISQUE_INSTITUTIONNEL','INCLUSCORE','RECOMMANDATION_AGENT','AVIS_ANALYSTE','COMITE'],requiredDocs:['Pièce d’identité','Demande signée','Justificatif activité / entreprise','Documents légaux applicables','Justificatifs de revenus / activité','Justificatifs de garanties'],policy:['PLAFONDS','ENCOURS_AUTORISE','FRAIS_ASSURANCE','DOCUMENTS_LEGAUX_GARANTIES','VISAS']}
 };
 const ARR=['productForms','policyChecks','institutionalRisk','businessAnalyses','personalBudgets','personalBalanceSheets','workflowActions','consents'];
 function init(x){ARR.forEach(k=>x[k]??=[]);ensureCatalog(x);ensureR187(x);ensureSfdFieldConfig(x);ensureMvpDemoCase(x);x.version=17;return x}
@@ -74,7 +81,7 @@ function ensureMvpDemoCase(x){
  if(!x.visits.some(v=>v.applicationId===a.id))R14.addVisit(x,{applicationId:a.id,addressVerified:'Oui',activityObserved:'Oui',stock:'Sans objet',equipment:'Sans objet',observations:'Situation et informations vérifiées pour la démonstration MVP.',customerFlow:'Sans objet',activityAge:'72',geoReference:'Bamako'},actor);
  if(!x.guarantees.some(v=>v.applicationId===a.id))R14.addGuarantee(x,{applicationId:a.id,type:'Domiciliation salaire',description:'Salaire domicilié et épargne obligatoire',owner:'Moussa Coulibaly',declaredValue:650000,expertValue:650000,retainedValue:650000,status:'Vérifiée'},actor);
  for(const c of ensurePolicyChecks(x,a.id))if(c.status!=='Conforme')setPolicyCheck(x,a.id,c.code,'Conforme','Vérifié dans le dossier MVP',actor);
- if(!x.workflowActions.some(v=>v.applicationId===a.id&&v.step==='AGENT_CREDIT'&&v.status==='VALIDÉ'))recordWorkflowAction(x,a.id,'AGENT_CREDIT','VALIDÉ','Dossier constitué et transmis pour analyse.',actor);
+ if(!x.workflowActions.some(v=>v.applicationId===a.id&&v.step==='AGENT_CREDIT'&&v.status==='VALIDÉ'))recordWorkflowAction(x,a.id,'AGENT_CREDIT','VALIDÉ','Dossier constitué et transmis pour analyse.',actor,{risk:'Risque acceptable'});
  return x;
 }
 function audit(x,action,actor,detail={}){x.audit.unshift({at:iso(),action,actor,...detail})}
@@ -94,8 +101,19 @@ export function policySummary(x,id){const items=ensurePolicyChecks(x,id),ok=item
 export const RISK_DIMENSIONS=['Volonté de payer de l’emprunteur','Stabilité et sécurité du revenu','Stabilité de l’adresse','Pouvoir actuel de remboursement','Niveau et qualité des garanties','Coefficient de la capacité de remboursement','Antécédents de crédit','Équilibre budget familial','Réputation dans le milieu'];
 export function setInstitutionalRisk(x,id,dimension,rating,evidence,actor){if(!RISK_DIMENSIONS.includes(dimension))throw Error('Dimension de risque inconnue');let v=x.institutionalRisk.find(z=>z.applicationId===id&&z.dimension===dimension);const data={rating,evidence:evidence||'',updatedAt:iso(),actor};if(v)Object.assign(v,data);else x.institutionalRisk.push(v={id:next('RSK',x.institutionalRisk),applicationId:id,dimension,...data});audit(x,'GRILLE_RISQUE_INSTITUTIONNELLE',actor,{applicationId:id,dimension,rating});return v}
 export function salaryCapacity(x,id){const f=productForm(x,id).data,monthly=num(f.monthlyRepayment),quota=num(f.assignableQuota);return {netSalary:num(f.netSalary),assignableQuota:quota,monthlyRepayment:monthly,compliant:quota>monthly,margin:quota-monthly}}
-export function workflowState(x,id){const a=x.applications.find(v=>v.id===id),def=productDefinition(a?.product),actions=x.workflowActions.filter(v=>v.applicationId===id);return {steps:def.workflow,actions,next:def.workflow.find(step=>!actions.some(v=>v.step===step&&v.status==='VALIDÉ'))||'TERMINÉ'}}
-export function recordWorkflowAction(x,id,step,status,note,actor){const def=productDefinition(x.applications.find(v=>v.id===id)?.product);if(!def.workflow.includes(step))throw Error('Étape non prévue pour ce produit');const v={id:next('WF',x.workflowActions),applicationId:id,step,status,note:note||'',actor,at:iso()};x.workflowActions.push(v);audit(x,'WORKFLOW_VALIDATION',actor,{applicationId:id,step,status});return v}
+export function workflowState(x,id){const a=x.applications.find(v=>v.id===id),def=productDefinition(a?.product),actions=x.workflowActions.filter(v=>v.applicationId===id).map(v=>({...v,step:stepOf(v.step)}));
+const latest=step=>actions.filter(v=>v.step===step).at(-1)||null;
+const done=step=>step==='COMITE_CREDIT'?['VALIDÉ','REFUSÉ'].includes(latest(step)?.status):latest(step)?.status==='VALIDÉ';
+const agent=latest('AGENT_CREDIT'),analyst=latest('ANALYSTE_RESPONSABLE_CREDIT');
+return {steps:def.workflow.map(step=>({step,done:done(step),last:latest(step)})),actions,next:def.workflow.find(step=>!done(step))||'TERMINÉ',agentOpinion:agent?.status==='VALIDÉ'?agent:null,analystOpinion:analyst?.status==='VALIDÉ'?analyst:null,returned:agent?.status==='À_REPRENDRE'?agent:null}}
+export function recordWorkflowAction(x,id,step,status,note,actor,extra={}){step=stepOf(step);const def=productDefinition(x.applications.find(v=>v.id===id)?.product);if(!def.workflow.includes(step))throw Error('Étape non prévue pour ce produit');const v={id:next('WF',x.workflowActions),applicationId:id,step,status,note:note||'',...extra,actor,at:iso()};x.workflowActions.push(v);audit(x,'WORKFLOW_VALIDATION',actor,{applicationId:id,step,status});return v}
+// Formulaires, section « Recommandation de l'agent de crédit » : avis motivé puis transmission à l'analyste.
+export function submitAgentOpinion(x,id,{risk,opinion},actor){if(!RISK_OPINIONS.includes(risk))throw Error('Choisir « Risque acceptable » ou « Risque élevé »');if(!String(opinion||'').trim())throw Error('Avis motivé obligatoire');return recordWorkflowAction(x,id,'AGENT_CREDIT','VALIDÉ',opinion.trim(),actor,{risk})}
+// Avis de l'analyste : transmission au comité, ou renvoi à l'agent pour complément.
+export function recordAnalystReview(x,id,{risk,opinion,outcome},actor){if(!String(opinion||'').trim())throw Error('Avis motivé obligatoire');
+if(outcome==='RENVOYÉ'){const v=recordWorkflowAction(x,id,'ANALYSTE_RESPONSABLE_CREDIT','RENVOYÉ',opinion.trim(),actor);recordWorkflowAction(x,id,'AGENT_CREDIT','À_REPRENDRE',opinion.trim(),actor);return v}
+if(!workflowState(x,id).agentOpinion)throw Error('L’agent n’a pas encore soumis son avis');if(!RISK_OPINIONS.includes(risk))throw Error('Choisir « Risque acceptable » ou « Risque élevé »');
+return recordWorkflowAction(x,id,'ANALYSTE_RESPONSABLE_CREDIT','VALIDÉ',opinion.trim(),actor,{risk})}
 export function dossier(x,id){const d=R14.dossier(x,id),a=d.application,sc=sfdScore(x,id);return {...d,incluscore:sc?.score||0,incluscoreDetail:sc,productDefinition:productDefinition(a.product),productForm:productForm(x,id),businessAnalysis:x.businessAnalyses.find(v=>v.applicationId===id)||null,personalBudget:x.personalBudgets.find(v=>v.applicationId===id)||null,personalBalance:x.personalBalanceSheets.find(v=>v.applicationId===id)||null,policy:policySummary(x,id),institutionalRisk:x.institutionalRisk.filter(v=>v.applicationId===id),workflow:workflowState(x,id),sfdField:fieldSummary(x,id)}}
 
 export {recordBic,bicFor,disputeData,resolveDispute,auditFor,registerImport,passportSummary};
@@ -103,4 +121,15 @@ export {recordBic,bicFor,disputeData,resolveDispute,auditFor,registerImport,pass
 // Score SFD (critères des documents terrain) : remplace le calcul R14 pour l'application.
 export function incluscore(x,id){return sfdScore(x,id)}
 // La décision fige le score, sa version et ses normes au moment où le comité statue.
-export function recordDecision(x,d,actor){const sc=sfdScore(x,d.applicationId),v=R14.recordDecision(x,d,actor);if(sc)v.scoreSnapshot={score:sc.score,band:sc.band,coverage:sc.coverage,dataConfidence:sc.dataConfidence,axes:sc.axes,outOfNorm:sc.outOfNorm,policyVersion:sc.policyVersion,engineVersion:sc.engineVersion,at:v.at};return v}
+export function recordDecision(x,d,actor){const id=d.applicationId,before=workflowState(x,id),sc=sfdScore(x,id),v=R14.recordDecision(x,d,actor);
+// Conditions du formulaire « Décision du comité » : montant, taux, durée, échéances, membres présents, quorum.
+const rate=num(d.annualRate)||null,duration=num(d.durationMonths)||null,periodicity=d.periodicity||null;
+Object.assign(v,{annualRate:rate,durationMonths:duration,periodicity,membersPresent:String(d.membersPresent||'').trim(),directorSignature:d.directorSignature==='Oui'});
+if(d.decision==='VALIDÉ'&&v.approvedAmount>0&&rate&&duration){const sim=R14.simulate(x,id,v.approvedAmount,duration,periodicity||'Mensuelle',rate,'Dégressif');v.installments=sim.periods;v.installmentAmount=Math.round(sim.installment)}
+// Le comité n'est pas bloqué, mais la décision garde la trace des étapes qui manquaient.
+if(before.next!=='COMITE_CREDIT'&&before.next!=='TERMINÉ')v.workflowWarning=`Décision prise avant l’étape « ${STEP_LABELS[before.next]||before.next} »`;
+if(sc)v.scoreSnapshot={score:sc.score,band:sc.band,coverage:sc.coverage,dataConfidence:sc.dataConfidence,axes:sc.axes,outOfNorm:sc.outOfNorm,policyVersion:sc.policyVersion,engineVersion:sc.engineVersion,at:v.at};
+recordWorkflowAction(x,id,'COMITE_CREDIT',d.decision,d.reason||'',actor);
+// Ajourné : le dossier revient à l'agent, puis repasse par l'analyste.
+if(d.decision==='AJOURNÉ'){recordWorkflowAction(x,id,'AGENT_CREDIT','À_REPRENDRE',d.reason||'Dossier ajourné par le comité',actor);recordWorkflowAction(x,id,'ANALYSTE_RESPONSABLE_CREDIT','À_REPRENDRE',d.reason||'Dossier ajourné par le comité',actor)}
+return v}
