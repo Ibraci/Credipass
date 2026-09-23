@@ -2,6 +2,7 @@
 import * as R14 from './creditLedgerR14.js';
 import { evaluateFieldPolicies } from './sfdFieldR193.js';
 import { scoreSfdApplication } from '../engines/sfdCreditScoreEngine.js';
+import { balanceTotals, cashflowSummary } from './companyFinancials.js';
 
 const num = v => Number(v) || 0;
 const known = v => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
@@ -38,13 +39,15 @@ function creditHistory(x, a, form) {
   };
 }
 
-function availableForRepayment(x, a, business, budget) {
+function availableForRepayment(x, a, business, budget, cash) {
   const existingDebts = byApp(x.debts, a.id).filter(d => d.status === 'Actif').reduce((s, d) => s + num(d.installment), 0);
   if (business) {
     // Fiche d'analyse : bénéfice de l'activité (+ ou −) surplus personnel.
     if (budget) return { value: num(business.result) + num(budget.otherIncome) - num(budget.personalExpenses) - num(budget.creditTontinePayments), source: 'Résultat d’activité + budget personnel' };
     return { value: num(business.result) - existingDebts, source: 'Résultat d’activité − échéances existantes' };
   }
+  // Sans compte de résultat : trésorerie nette mensuelle moyenne des 6 derniers mois.
+  if (cash) return { value: cash.averageNet, source: 'Trésorerie nette moyenne (6 mois)' };
   return { value: R14.financialPosition(x, a.id).capacity, source: 'Revenus − charges − échéances existantes' };
 }
 
@@ -61,7 +64,9 @@ export function buildSfdScoreInput(x, id) {
   const seniority = monthsSince(form.hireDate);
   const guaranteeFactor = { 'Vérifiée': 1, 'Expertisée': 1, 'À vérifier': 0.5, 'Rejetée': 0 };
   const guarantees = byApp(x.guarantees, id);
-  const available = availableForRepayment(x, a, business, budget);
+  const companyBalance = byApp(x.companyBalanceSheets, id)[0] || null;
+  const cash = byApp(x.cashflows, id)[0] ? cashflowSummary(byApp(x.cashflows, id)[0]) : null;
+  const available = availableForRepayment(x, a, business, budget, cash);
 
   return {
     product: a.product,
@@ -82,7 +87,7 @@ export function buildSfdScoreInput(x, id) {
       membershipMonths: monthsSince(form.memberSince || member.joinedAt),
       accountBalance: orNull(form.accountBalance),
       dga: orNull(form.dga),
-      davDepositCount6m: orNull(form.davDepositCount6m)
+      davDepositCount6m: orNull(form.davDepositCount6m ?? cash?.dav?.depositCount)
     },
     stability: {
       seniorityMonths: seniority,
@@ -90,13 +95,15 @@ export function buildSfdScoreInput(x, id) {
       salaryDomiciled: a.product === 'Crédit salarié' ? Boolean(String(form.salaryDomiciliationDate || '').trim()) : null,
       activityAgeMonths: orNull(visit?.activityAge ?? form.activityAgeMonths),
       addressYears: orNull(form.addressYears),
-      addressVerified: visit?.addressVerified ?? null
+      addressVerified: visit?.addressVerified ?? null,
+      inflowVolatility: cash?.inflowVolatility ?? null
     },
     guarantees: {
       count: guarantees.length,
       retainedValue: guarantees.reduce((s, g) => s + num(g.retainedValue ?? g.expertValue ?? g.declaredValue) * (guaranteeFactor[g.status] ?? 0.5), 0)
     },
-    balance: balance ? { netWorth: num(balance.netWorth) } : null,
+    // Fiche d'analyse : fonds propres de l'entreprise si son bilan existe, sinon situation nette personnelle.
+    balance: companyBalance ? { netWorth: balanceTotals(companyBalance).equity, source: 'Bilan de l’entreprise' } : balance ? { netWorth: num(balance.netWorth), source: 'Bilan personnel' } : null,
     financingPlan: { personalContribution: orNull(form.personalContribution), projectCost: orNull(form.projectCost) },
     appraisal: {
       ratings: byApp(x.institutionalRisk, id).map(r => ({ dimension: r.dimension, rating: r.rating })),

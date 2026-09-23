@@ -97,6 +97,7 @@ function stabilityAxis(input) {
     parts.push(part('Salaire domicilié à la caisse', s.salaryDomiciled === null || s.salaryDomiciled === undefined ? null : (s.salaryDomiciled ? 'Oui' : 'Non'), s.salaryDomiciled === null || s.salaryDomiciled === undefined ? null : (s.salaryDomiciled ? 100 : 40)));
   } else {
     parts.push(part('Ancienneté de l’activité (mois)', s.activityAgeMonths, curveScore(s.activityAgeMonths, SFD_SCORE_CURVES.activityAgeMonths), 2));
+    parts.push(part('Régularité des encaissements sur 6 mois (volatilité, %)', s.inflowVolatility, curveScore(s.inflowVolatility, SFD_SCORE_CURVES.inflowVolatility)));
   }
   parts.push(part('Ancienneté à l’adresse (années)', s.addressYears, curveScore(s.addressYears, SFD_SCORE_CURVES.addressYears)));
   const verified = { Oui: 100, Partiellement: 50, Non: 0 }[s.addressVerified] ?? null;
@@ -115,7 +116,7 @@ function solvencyAxis(input) {
   const creditToEquity = isNum(netWorth) ? (Number(netWorth) > 0 ? Number(input.requestedAmount) / Number(netWorth) : 99) : null;
   const contribution = ratio(input.financingPlan?.personalContribution, input.financingPlan?.projectCost);
   return combine([
-    part('Crédit / fonds propres', creditToEquity, curveScore(creditToEquity, SFD_SCORE_CURVES.creditToEquity), 2),
+    part(`Crédit / fonds propres (${input.balance?.source || 'bilan'})`, creditToEquity, curveScore(creditToEquity, SFD_SCORE_CURVES.creditToEquity), 2),
     part('Apport personnel / coût du projet', contribution, curveScore(contribution, SFD_SCORE_CURVES.personalContribution))
   ]);
 }
