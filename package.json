@@ -44,7 +44,8 @@
     "test:accounts": "node tests/demo-accounts-tests.mjs",
     "test:mvp-clean": "node tests/mvp-clean-tests.mjs",
     "test:mvp-urgent": "node tests/mvp-urgent-fix-tests.mjs",
-    "test:search": "node tests/global-search-tests.mjs"
+    "test:search": "node tests/global-search-tests.mjs",
+    "test:copilot": "node tests/copilot-interaction-tests.mjs"
   },
   "description": "CREDIPASS by KABU PRO — instruction explicable de dossiers de microcrédit, décision humaine et gouvernance institutionnelle.",
   "dependencies": {
