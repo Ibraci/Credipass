@@ -3,9 +3,9 @@
 ## Méthode A — Docker Desktop
 
 1. Installer Docker Desktop et Node.js 20+.
-2. Double-cliquer sur `PREPARER_POSTGRESQL_DOCKER.bat`.
+2. Double-cliquer sur `windows\PREPARER_POSTGRESQL_DOCKER.bat`.
 3. Le script crée des identifiants PostgreSQL locaux, installe le pilote Node.js `postgres`, démarre PostgreSQL et vérifie la connexion.
-4. Lancer ensuite `LANCER_CREDIPASS.bat`.
+4. Lancer ensuite `windows\LANCER_CREDIPASS.bat`.
 
 PostgreSQL n'est exposé que sur `127.0.0.1:5432` dans le fichier Docker Compose. Les autres terminaux du LAN parlent à l'API CREDIPASS sur le port 8092, **pas directement à PostgreSQL**.
 
@@ -30,7 +30,7 @@ Puis :
 ```powershell
 npm ci --omit=dev
 npm run db:check
-LANCER_CREDIPASS.bat
+windows\LANCER_CREDIPASS.bat
 ```
 
 Le schéma `db/postgresql/001_init.sql` est créé automatiquement au premier démarrage.

@@ -19,7 +19,7 @@ Ces comptes sont destinés à la **démonstration / hackathon**. Les mots de pas
 
 Après la préparation de PostgreSQL, exécuter une fois :
 
-`PREPARER_COMPTES_DEMO.bat`
+`windows\PREPARER_COMPTES_DEMO.bat`
 
 Cette commande crée les comptes s'ils n'existent pas et réinitialise leurs mots de passe de démonstration s'ils existent déjà.
 

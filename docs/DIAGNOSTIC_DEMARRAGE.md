@@ -38,7 +38,7 @@ POSTGRESQL CENTRAL: PASS
 
 ## 4. Vérifier l'API
 
-Lancer `LANCER_CREDIPASS.bat`, puis ouvrir :
+Lancer `windows\LANCER_CREDIPASS.bat`, puis ouvrir :
 
 ```text
 http://localhost:8092/api/health

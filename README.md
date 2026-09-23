@@ -20,6 +20,8 @@ docker compose up -d --build
 
 Ouvrir **http://127.0.0.1:8092** et se connecter, par exemple avec `agent.credit` / `Agent@2026`.
 
+**Sous Windows**, avec Docker Desktop démarré : double-cliquer sur `windows\DEMARRER_DOCKER.bat`. Au premier lancement, le script crée `.env` avec un mot de passe aléatoire propre au PC, démarre la base et l'application, puis ouvre le navigateur. Pour arrêter : `windows\ARRETER_DOCKER.bat`. Ne transmettez pas votre propre `.env` : chaque PC génère le sien.
+
 | Action | Commande |
 |---|---|
 | Voir l'état | `docker compose ps` |
@@ -143,4 +145,4 @@ npm run test:mvp-clean # parcours de démonstration
 | [docs/ARCHITECTURE_POSTGRESQL.md](docs/ARCHITECTURE_POSTGRESQL.md) | Choix d'architecture |
 | [docs/DIAGNOSTIC_DEMARRAGE.md](docs/DIAGNOSTIC_DEMARRAGE.md) | Problèmes de démarrage |
 | [docs/QUESTIONS_JURY_MVP.md](docs/QUESTIONS_JURY_MVP.md) | Questions attendues du jury |
-| `docs/AUDIT_*.md`, `docs/TEST_RESULTS_*.txt` | Historique des audits et résultats de tests par release |
+| `docs/archives/` | Historique des audits, certifications et résultats de tests par release |
